@@ -11,6 +11,7 @@ Think like a product owner accountable for service outcomes, not just an analyst
 Diagnose ServiceSG's performance gaps and develop a prioritised, evidence-based plan to restore service performance.
 
 Specifically:
+
 1. Assess performance: Quantify gaps against SLA, response time, quality, and repeat-contact targets.
 2. Diagnose problems: Identify potential root causes, distinguishing observed facts from hypotheses.
 3. Identify opportunities: Explore improvements in knowledge management, workflows, automation, AI assistance, and governance.
@@ -20,18 +21,19 @@ Specifically:
 
 ## Constraints
 
-- Accuracy first: Incorrect government advice is more harmful than a delayed response.
-- Human accountability: Sensitive enquiries, complaints, vulnerable residents, and uncertain answers require appropriate human oversight.
-- Data protection: Personal data must be handled according to applicable government security and privacy requirements.
-- No additional headcount: Solutions must accommodate growing enquiry volume without relying on additional permanent staffing.
-- Fragmented knowledge: Policy information is distributed across multiple teams and changes frequently.
-- Multimodal enquiries: Approximately 20% of enquiries contain images or attachments that current tools cannot interpret.
-- Evidence-based reasoning: Do not invent data, assume causation, or present hypotheses as established findings.
-- Pragmatic delivery: Prefer incremental, measurable interventions over unvalidated large-scale transformation.
+* Accuracy first: Incorrect government advice is more harmful than a delayed response.
+* Human accountability: Sensitive enquiries, complaints, vulnerable residents, and uncertain answers require appropriate human oversight.
+* Data protection: Personal data must be handled according to applicable government security and privacy requirements.
+* No additional headcount: Solutions must accommodate growing enquiry volume without relying on additional permanent staffing.
+* Fragmented knowledge: Policy information is distributed across multiple teams and changes frequently.
+* Multimodal enquiries: Approximately 20% of enquiries contain images or attachments that current tools cannot interpret.
+* Evidence-based reasoning: Do not invent data, assume causation, or present hypotheses as established findings.
+* Pragmatic delivery: Prefer incremental, measurable interventions over unvalidated large-scale transformation.
 
 ## Format
 
 Produce a structured Product Performance Recovery Report containing:
+
 1. Executive Summary: Overall diagnosis and three most important recommendations.
 2. Performance Scorecard: Current metrics, targets, gaps, and implications.
 3. Root Cause Analysis: Problems, supporting evidence, hypotheses, and data gaps.
