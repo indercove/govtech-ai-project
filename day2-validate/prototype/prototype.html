@@ -176,6 +176,40 @@
       text-align: center;
       padding: 24px;
     }
+    .lookup-failed {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      padding: 16px;
+      text-align: left;
+    }
+    .lookup-failed-header {
+      color: #856404;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .lookup-failed-body {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+    .lookup-failed-actions {
+      font-size: 12px;
+      color: #555;
+    }
+    .lookup-failed-actions ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+    .draft-preserved-notice {
+      background: #e8f5e9;
+      border: 1px solid #4caf50;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #2e7d32;
+      margin-bottom: 12px;
+    }
     .sample-queries {
       margin-top: 16px;
       font-size: 12px;
@@ -272,36 +306,53 @@
     .test-item:last-child {
       border-bottom: none;
     }
-    .draft-info {
-      font-size: 13px;
+    /* Reply screen - consistent labels and spacing */
+    .draft-label {
+      font-size: 12px;
+      font-weight: 600;
       color: #666;
-      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .draft-info {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border-left: 3px solid #0066cc;
     }
     .draft-info strong {
-      color: #333;
+      color: #0066cc;
+      font-weight: 600;
     }
     .draft-content {
-      background: #f9f9f9;
+      background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 6px;
-      padding: 16px;
-      font-size: 13px;
-      line-height: 1.6;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.7;
       white-space: pre-wrap;
-      max-height: calc(100vh - 380px);
+      max-height: calc(100vh - 420px);
       overflow-y: auto;
     }
     .draft-actions {
-      margin-top: 16px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
       align-items: center;
     }
     .draft-actions button {
       margin-top: 0;
-      font-size: 13px;
-      padding: 8px 16px;
+      font-size: 14px;
+      padding: 10px 20px;
+      font-weight: 500;
     }
     .btn-secondary {
       background: #6c757d;
@@ -311,7 +362,8 @@
     }
     .copied-notice {
       color: #28a745;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
       display: none;
     }
     .copied-notice.visible {
@@ -323,6 +375,105 @@
       display: flex;
       align-items: center;
       padding-top: 40px;
+    }
+    /* Inbox styles */
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .view-toggle button {
+      margin: 0;
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+    .view-toggle button.active {
+      background: #0052a3;
+    }
+    .view-toggle button:not(.active) {
+      background: #e0e0e0;
+      color: #333;
+    }
+    .inbox-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .inbox-controls select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+    }
+    .ticket-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .ticket-card:hover {
+      border-color: #0066cc;
+      background-color: #f8fbff;
+    }
+    .ticket-card.selected {
+      border-color: #0066cc;
+      background-color: #e6f0ff;
+    }
+    .ticket-id {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+    .ticket-subject {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .ticket-preview {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ticket-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: #888;
+    }
+    .ticket-topic {
+      background: #e8f4fd;
+      color: #0066cc;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .ticket-warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    .inbox-view {
+      display: none;
+    }
+    .inbox-view.active {
+      display: block;
+    }
+    .finder-view {
+      display: none;
+    }
+    .finder-view.active {
+      display: block;
     }
   </style>
 </head>
@@ -360,10 +511,35 @@
     </div>
   </div>
 
-  <h1>Policy Finder</h1>
-  <p class="subtitle">Paste a customer enquiry → Find policies → Generate draft reply</p>
+  <div class="view-toggle">
+    <button id="inboxBtn" class="active" onclick="showView('inbox')">📥 Inbox</button>
+    <button id="finderBtn" onclick="showView('finder')">🔍 Policy Finder</button>
+  </div>
 
-  <div class="main-layout">
+  <!-- INBOX VIEW -->
+  <div id="inboxView" class="inbox-view active">
+    <h1>My Tickets</h1>
+    <p class="subtitle">Select a ticket to find policies and draft a reply</p>
+
+    <div class="inbox-controls">
+      <span id="ticketCount">8 tickets</span>
+      <select id="sortBy" onchange="sortTickets()">
+        <option value="newest">Sort: Newest first</option>
+        <option value="oldest">Sort: Oldest first</option>
+        <option value="topic">Sort: By policy topic</option>
+      </select>
+    </div>
+
+    <div id="ticketList"></div>
+  </div>
+
+  <!-- FINDER VIEW (original) -->
+  <div id="finderView" class="finder-view">
+    <h1>Policy Finder</h1>
+    <p class="subtitle">Paste a customer enquiry → Find policies → Generate draft reply</p>
+  </div>
+
+  <div class="main-layout finder-view" id="mainLayout">
     <!-- Column 1: Input -->
     <div class="column">
       <div class="column-header">
@@ -411,13 +587,15 @@
           Click a policy to generate a draft reply
         </div>
         <div id="draftSection" style="display: none;">
+          <div class="draft-label">Source Policy</div>
           <div class="draft-info">
-            Based on: <strong id="selectedPolicy"></strong>
+            <strong id="selectedPolicy"></strong>
           </div>
+          <div class="draft-label">Draft Reply</div>
           <div class="draft-content" id="draftContent"></div>
           <div class="draft-actions">
-            <button onclick="copyDraft()">Copy to Clipboard</button>
-            <button class="btn-secondary" onclick="regenerateDraft()">Regenerate</button>
+            <button onclick="copyDraft()">📋 Copy to Clipboard</button>
+            <button class="btn-secondary" onclick="regenerateDraft()">🔄 Regenerate</button>
             <span class="copied-notice" id="copiedNotice">✓ Copied!</span>
           </div>
         </div>
@@ -431,6 +609,92 @@
     let selectedPolicyIndex = null;
     let currentEnquiry = '';
     let scaleTestMode = false;
+
+    // Synthetic ticket data (all made up for learning purposes)
+    const tickets = [
+      { id: 'TKT-2024-001', subject: 'CPF withdrawal for housing downpayment', content: 'I want to use my CPF OA to pay for the downpayment on my new HDB flat. How much can I withdraw and what is the process?', topic: 'CPF', receivedAt: '2024-11-18T09:30:00', hasAttachment: false },
+      { id: 'TKT-2024-002', subject: 'HDB eligibility as single applicant', content: 'I am 35 years old and single. Am I eligible to buy an HDB flat? What schemes are available for singles like me?', topic: 'HDB', receivedAt: '2024-11-18T09:15:00', hasAttachment: false },
+      { id: 'TKT-2024-003', subject: 'MediShield claim rejection', content: 'My MediShield Life claim was rejected. The hospital bill was for my mother\'s knee surgery. What can I do to appeal?', topic: 'Healthcare', receivedAt: '2024-11-18T08:45:00', hasAttachment: false },
+      { id: 'TKT-2024-004', subject: 'SkillsFuture for driving lessons', content: 'Can I use my SkillsFuture credits to pay for driving lessons at a driving school? I want to get my Class 3 license.', topic: 'Education', receivedAt: '2024-11-18T08:30:00', hasAttachment: false },
+      { id: 'TKT-2024-005', subject: 'Work pass renewal timeline', content: 'My S Pass is expiring next month. When should I apply for renewal and what documents do I need?', topic: 'Employment', receivedAt: '2024-11-18T08:00:00', hasAttachment: false },
+      { id: 'TKT-2024-006', subject: 'Please see attached rejection letter', content: 'Please see the attached letter. Why was my application denied? I submitted everything correctly.', topic: 'Unknown', receivedAt: '2024-11-17T16:30:00', hasAttachment: true },
+      { id: 'TKT-2024-007', subject: 'CPF contribution rates after 55', content: 'I just turned 55 and noticed my CPF contributions changed. What are the new rates and why did they decrease?', topic: 'CPF', receivedAt: '2024-11-17T15:00:00', hasAttachment: false },
+      { id: 'TKT-2024-008', subject: 'Photo of parking fine', content: '[Image attached]', topic: 'Unknown', receivedAt: '2024-11-17T14:00:00', hasAttachment: true }
+    ];
+
+    function showView(view) {
+      const inboxView = document.getElementById('inboxView');
+      const finderView = document.getElementById('finderView');
+      const mainLayout = document.getElementById('mainLayout');
+      const inboxBtn = document.getElementById('inboxBtn');
+      const finderBtn = document.getElementById('finderBtn');
+
+      if (view === 'inbox') {
+        inboxView.classList.add('active');
+        finderView.classList.remove('active');
+        mainLayout.classList.remove('active');
+        inboxBtn.classList.add('active');
+        finderBtn.classList.remove('active');
+        renderTickets();
+      } else {
+        inboxView.classList.remove('active');
+        finderView.classList.add('active');
+        mainLayout.classList.add('active');
+        inboxBtn.classList.remove('active');
+        finderBtn.classList.add('active');
+      }
+    }
+
+    function renderTickets() {
+      const sortBy = document.getElementById('sortBy').value;
+      let sorted = [...tickets];
+
+      if (sortBy === 'newest') {
+        sorted.sort((a, b) => new Date(b.receivedAt) - new Date(a.receivedAt));
+      } else if (sortBy === 'oldest') {
+        sorted.sort((a, b) => new Date(a.receivedAt) - new Date(b.receivedAt));
+      } else if (sortBy === 'topic') {
+        sorted.sort((a, b) => a.topic.localeCompare(b.topic));
+      }
+
+      const html = sorted.map(t => {
+        const time = new Date(t.receivedAt).toLocaleString('en-SG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const warning = t.hasAttachment ? '<span class="ticket-warning">📎 Has attachment</span>' : '';
+        return `
+          <div class="ticket-card" onclick="openTicket('${t.id}')">
+            <div class="ticket-id">${t.id} · ${time}</div>
+            <div class="ticket-subject">${t.subject}</div>
+            <div class="ticket-preview">${t.content}</div>
+            <div class="ticket-meta">
+              <span class="ticket-topic">${t.topic}</span>
+              ${warning}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('ticketList').innerHTML = html;
+      document.getElementById('ticketCount').textContent = `${sorted.length} tickets`;
+    }
+
+    function sortTickets() {
+      renderTickets();
+    }
+
+    function openTicket(ticketId) {
+      const ticket = tickets.find(t => t.id === ticketId);
+      if (ticket) {
+        document.getElementById('enquiry').value = ticket.content;
+        showView('finder');
+        // Auto-search
+        findPolicies();
+      }
+    }
+
+    // Initialize inbox on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTickets();
+    });
 
     async function toggleScaleTest() {
       scaleTestMode = document.getElementById('scaleTestToggle').checked;
@@ -463,6 +727,8 @@
       selectedPolicyIndex = null;
     }
 
+    let previousDraft = null; // Store draft to preserve on failed lookup
+
     async function findPolicies() {
       const enquiry = document.getElementById('enquiry').value.trim();
       if (!enquiry) {
@@ -471,34 +737,110 @@
       }
 
       currentEnquiry = enquiry;
-      selectedPolicyIndex = null;
 
       const btn = document.getElementById('findBtn');
       btn.disabled = true;
       btn.textContent = 'Searching...';
 
-      // Hide draft section when searching again
-      document.getElementById('draftSection').style.display = 'none';
-      document.getElementById('draftPlaceholder').style.display = 'block';
+      // Save current draft before searching (to preserve if lookup fails)
+      const draftContent = document.getElementById('draftContent').textContent;
+      const draftVisible = document.getElementById('draftSection').style.display !== 'none';
+      if (draftVisible && draftContent) {
+        previousDraft = {
+          content: draftContent,
+          policy: document.getElementById('selectedPolicy').textContent
+        };
+      }
 
       try {
         const matches = await matchPolicies(enquiry);
         currentMatches = matches;
         displayResults(matches);
+
+        // If no matches found, preserve the draft
+        if (matches.length === 0 && previousDraft) {
+          showPreservedDraft();
+        } else if (matches.length > 0) {
+          // Clear preserved draft on successful search
+          previousDraft = null;
+          selectedPolicyIndex = null;
+          document.getElementById('draftSection').style.display = 'none';
+          document.getElementById('draftPlaceholder').style.display = 'block';
+        }
       } catch (err) {
         console.error(err);
-        alert('Error finding policies');
+        displayLookupError(err.message || 'Unknown error');
+        if (previousDraft) {
+          showPreservedDraft();
+        }
       } finally {
         btn.disabled = false;
         btn.textContent = 'Find Policies →';
       }
     }
 
+    function showPreservedDraft() {
+      document.getElementById('selectedPolicy').textContent = previousDraft.policy + ' (from previous search)';
+      document.getElementById('draftContent').textContent = previousDraft.content;
+      document.getElementById('draftPlaceholder').style.display = 'none';
+      document.getElementById('draftSection').style.display = 'block';
+
+      // Add preserved notice if not already there
+      const draftCard = document.getElementById('draftCard');
+      if (!draftCard.querySelector('.draft-preserved-notice')) {
+        const notice = document.createElement('div');
+        notice.className = 'draft-preserved-notice';
+        notice.textContent = '✓ Your previous draft has been preserved. You can still copy or edit it.';
+        document.getElementById('draftSection').insertBefore(notice, document.getElementById('draftSection').firstChild);
+      }
+    }
+
+    function displayLookupError(message) {
+      const resultsList = document.getElementById('resultsList');
+      resultsList.innerHTML = `
+        <div class="lookup-failed">
+          <div class="lookup-failed-header">⚠️ Policy lookup failed</div>
+          <div class="lookup-failed-body">
+            The system could not retrieve policy recommendations. This may be a temporary issue.
+          </div>
+          <div class="lookup-failed-actions">
+            <strong>What you can do:</strong>
+            <ul>
+              <li>Try searching again with different keywords</li>
+              <li>Check the policy portal directly</li>
+              <li>Your draft reply (if any) has been preserved</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
     function displayResults(matches) {
       const resultsList = document.getElementById('resultsList');
 
+      // Remove any preserved notice from previous failed search
+      const oldNotice = document.querySelector('.draft-preserved-notice');
+      if (oldNotice && matches.length > 0) {
+        oldNotice.remove();
+      }
+
       if (matches.length === 0) {
-        resultsList.innerHTML = '<div class="no-results">No matching policies found. Try different keywords.</div>';
+        resultsList.innerHTML = `
+          <div class="lookup-failed">
+            <div class="lookup-failed-header">⚠️ No matching policies found</div>
+            <div class="lookup-failed-body">
+              The search did not find any policies matching your enquiry. This could mean the topic is not in our index.
+            </div>
+            <div class="lookup-failed-actions">
+              <strong>What you can do:</strong>
+              <ul>
+                <li>Try different keywords or be more specific</li>
+                <li>Check the policy portal directly</li>
+                <li>Your draft reply (if any) has been preserved below</li>
+              </ul>
+            </div>
+          </div>
+        `;
       } else {
         resultsList.innerHTML = matches.map((m, index) => `
           <div class="result-card" onclick="selectPolicy(${index})" data-index="${index}">
