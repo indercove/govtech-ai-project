@@ -221,6 +221,57 @@
       background: #fff3e0;
       border-color: #ff9800;
     }
+    .kill-switch {
+      background: #ffebee;
+      border: 2px solid #c62828;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .kill-switch-header {
+      color: #c62828;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .kill-switch-body {
+      font-size: 14px;
+      color: #333;
+    }
+    .test-panel {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .test-header button {
+      margin: 0;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+    .test-results {
+      font-size: 13px;
+      color: #555;
+    }
+    .test-pass {
+      color: #2e7d32;
+    }
+    .test-fail {
+      color: #c62828;
+    }
+    .test-item {
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .test-item:last-child {
+      border-bottom: none;
+    }
     .draft-info {
       font-size: 13px;
       color: #666;
@@ -286,6 +337,27 @@
       <strong>Scale Test Mode</strong> — Use 250+ policies instead of 50 to test if keyword matching still works at scale
     </label>
     <span id="policyCount" class="policy-count">(50 policies loaded)</span>
+  </div>
+
+  <div id="killSwitch" class="kill-switch" style="display: none;">
+    <div class="kill-switch-header">
+      ⛔ <strong>KILL SWITCH TRIGGERED</strong>
+    </div>
+    <div class="kill-switch-body">
+      Precision dropped below 60%. Only <span id="precisionRate">0</span>% of test queries found the correct policy in the top 3.
+      <br><br>
+      <strong>Action:</strong> Stop and rethink the retrieval approach before building further.
+    </div>
+  </div>
+
+  <div id="testPanel" class="test-panel" style="display: none;">
+    <div class="test-header">
+      📊 <strong>Scale Test Results</strong>
+      <button onclick="runScaleTest()" id="runTestBtn">Run Test</button>
+    </div>
+    <div id="testResults" class="test-results">
+      Click "Run Test" to check if keyword matching works at scale.
+    </div>
   </div>
 
   <h1>Policy Finder</h1>
@@ -371,12 +443,15 @@
         await switchPolicyIndex('policy-index-scale.json');
         const count = await getPolicyCount();
         countSpan.textContent = `(${count} policies loaded — scale test active)`;
+        document.getElementById('testPanel').style.display = 'block';
       } else {
         toggle.classList.remove('scale-test-active');
         countSpan.textContent = '(loading...)';
         await switchPolicyIndex('policy-index.json');
         const count = await getPolicyCount();
         countSpan.textContent = `(${count} policies loaded)`;
+        document.getElementById('testPanel').style.display = 'none';
+        document.getElementById('killSwitch').style.display = 'none';
       }
 
       // Clear results when switching
@@ -476,6 +551,61 @@
 
     function useSample(el) {
       document.getElementById('enquiry').value = el.textContent;
+    }
+
+    // Test cases: query -> expected policy ID that should appear in top 3
+    const testCases = [
+      { query: 'CPF housing withdrawal', expectedId: 'cpf-001', label: 'CPF OA Housing' },
+      { query: 'HDB single 35', expectedId: 'hdb-002', label: 'HDB Singles Scheme' },
+      { query: 'MediShield claim rejected', expectedId: 'health-001', label: 'MediShield Claims' },
+      { query: 'SkillsFuture course', expectedId: 'edu-001', label: 'SkillsFuture Credit' },
+      { query: 'work pass renewal expiring', expectedId: 'work-004', label: 'Work Pass Renewal' }
+    ];
+
+    async function runScaleTest() {
+      const btn = document.getElementById('runTestBtn');
+      const resultsDiv = document.getElementById('testResults');
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+      resultsDiv.innerHTML = 'Testing each query...';
+
+      let passed = 0;
+      let results = [];
+
+      for (const test of testCases) {
+        const matches = await matchPolicies(test.query);
+        const foundInTop3 = matches.some(m => m.id === test.expectedId);
+        if (foundInTop3) passed++;
+        results.push({
+          ...test,
+          passed: foundInTop3,
+          topResults: matches.slice(0, 3).map(m => m.id)
+        });
+      }
+
+      const precision = Math.round((passed / testCases.length) * 100);
+
+      // Show results
+      let html = `<div style="margin-bottom: 12px;"><strong>Precision: ${precision}%</strong> (${passed}/${testCases.length} queries found correct policy in top 3)</div>`;
+
+      results.forEach(r => {
+        const icon = r.passed ? '✅' : '❌';
+        const cls = r.passed ? 'test-pass' : 'test-fail';
+        html += `<div class="test-item ${cls}">${icon} "${r.query}" → ${r.label} ${r.passed ? 'found' : 'NOT found'}</div>`;
+      });
+
+      resultsDiv.innerHTML = html;
+
+      // Kill switch logic: if precision < 60%, show warning
+      if (precision < 60) {
+        document.getElementById('precisionRate').textContent = precision;
+        document.getElementById('killSwitch').style.display = 'block';
+      } else {
+        document.getElementById('killSwitch').style.display = 'none';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Run Test';
     }
   </script>
 </body>
