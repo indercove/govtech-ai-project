@@ -227,84 +227,77 @@
     .sample-queries span:hover {
       background: #ddd;
     }
-    .scale-test-toggle {
-      background: #e8f4fd;
-      border: 1px solid #0066cc;
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
       border-radius: 6px;
-      padding: 12px 16px;
-      margin-bottom: 24px;
-      font-size: 14px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .top-bar-right {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .scale-test-toggle label {
-      display: inline;
-      margin: 0;
+    .banner-inline {
+      color: #856404;
+      background: #fff3cd;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .scale-toggle-inline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      background: #e8f4fd;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid #0066cc;
+    }
+    .scale-toggle-inline input {
       cursor: pointer;
     }
-    .scale-test-toggle input {
-      margin-right: 6px;
-      cursor: pointer;
-    }
-    .policy-count {
-      color: #666;
-      font-size: 13px;
-    }
-    .scale-test-active {
+    .scale-toggle-inline.active {
       background: #fff3e0;
       border-color: #ff9800;
     }
-    .kill-switch {
+    .test-results-inline {
+      font-size: 12px;
+      color: #555;
+      max-width: 400px;
+    }
+    .test-results-inline.pass {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+    .test-results-inline.fail {
+      color: #c62828;
+      font-weight: 600;
+    }
+    .kill-switch-inline {
       background: #ffebee;
       border: 2px solid #c62828;
       border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    .kill-switch-header {
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
       color: #c62828;
-      font-size: 16px;
-      margin-bottom: 8px;
     }
-    .kill-switch-body {
-      font-size: 14px;
-      color: #333;
-    }
-    .test-panel {
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    .test-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .test-header button {
+    #runTestBtn {
+      padding: 4px 12px;
+      font-size: 12px;
       margin: 0;
-      padding: 6px 12px;
-      font-size: 13px;
-    }
-    .test-results {
-      font-size: 13px;
-      color: #555;
-    }
-    .test-pass {
-      color: #2e7d32;
-    }
-    .test-fail {
-      color: #c62828;
-    }
-    .test-item {
-      padding: 4px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .test-item:last-child {
-      border-bottom: none;
     }
     /* Reply screen - consistent labels and spacing */
     .draft-label {
@@ -478,37 +471,22 @@
   </style>
 </head>
 <body>
-  <div class="banner">
-    ⚠️ <strong>Prototype only.</strong> All data is synthetic and made up for learning purposes.
-  </div>
-
-  <div class="scale-test-toggle">
-    <label>
-      <input type="checkbox" id="scaleTestToggle" onchange="toggleScaleTest()">
-      <strong>Scale Test Mode</strong> — Use 250+ policies instead of 50 to test if keyword matching still works at scale
-    </label>
-    <span id="policyCount" class="policy-count">(50 policies loaded)</span>
-  </div>
-
-  <div id="killSwitch" class="kill-switch" style="display: none;">
-    <div class="kill-switch-header">
-      ⛔ <strong>KILL SWITCH TRIGGERED</strong>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="banner-inline">⚠️ <strong>Prototype only.</strong> Synthetic data.</span>
+      <label class="scale-toggle-inline">
+        <input type="checkbox" id="scaleTestToggle" onchange="toggleScaleTest()">
+        <strong>Scale Test</strong> <span id="policyCount">(50 policies)</span>
+      </label>
     </div>
-    <div class="kill-switch-body">
-      Precision dropped below 60%. Only <span id="precisionRate">0</span>% of test queries found the correct policy in the top 3.
-      <br><br>
-      <strong>Action:</strong> Stop and rethink the retrieval approach before building further.
+    <div class="top-bar-right" id="testPanelInline" style="display: none;">
+      <button onclick="runScaleTest()" id="runTestBtn">▶ Run Test</button>
+      <span id="testResultsInline" class="test-results-inline">—</span>
     </div>
   </div>
 
-  <div id="testPanel" class="test-panel" style="display: none;">
-    <div class="test-header">
-      📊 <strong>Scale Test Results</strong>
-      <button onclick="runScaleTest()" id="runTestBtn">Run Test</button>
-    </div>
-    <div id="testResults" class="test-results">
-      Click "Run Test" to check if keyword matching works at scale.
-    </div>
+  <div id="killSwitch" class="kill-switch-inline" style="display: none;">
+    ⛔ <strong>KILL SWITCH:</strong> Precision <span id="precisionRate">0</span>% (below 60%) — Stop and rethink retrieval approach
   </div>
 
   <div class="view-toggle">
@@ -698,23 +676,25 @@
 
     async function toggleScaleTest() {
       scaleTestMode = document.getElementById('scaleTestToggle').checked;
-      const toggle = document.querySelector('.scale-test-toggle');
+      const toggle = document.querySelector('.scale-toggle-inline');
       const countSpan = document.getElementById('policyCount');
 
       if (scaleTestMode) {
-        toggle.classList.add('scale-test-active');
-        countSpan.textContent = '(loading scale test data...)';
+        toggle.classList.add('active');
+        countSpan.textContent = '(loading...)';
         await switchPolicyIndex('policy-index-scale.json');
         const count = await getPolicyCount();
-        countSpan.textContent = `(${count} policies loaded — scale test active)`;
-        document.getElementById('testPanel').style.display = 'block';
+        countSpan.textContent = `(${count})`;
+        document.getElementById('testPanelInline').style.display = 'flex';
+        document.getElementById('testResultsInline').textContent = '—';
+        document.getElementById('testResultsInline').className = 'test-results-inline';
       } else {
-        toggle.classList.remove('scale-test-active');
+        toggle.classList.remove('active');
         countSpan.textContent = '(loading...)';
         await switchPolicyIndex('policy-index.json');
         const count = await getPolicyCount();
-        countSpan.textContent = `(${count} policies loaded)`;
-        document.getElementById('testPanel').style.display = 'none';
+        countSpan.textContent = `(${count})`;
+        document.getElementById('testPanelInline').style.display = 'none';
         document.getElementById('killSwitch').style.display = 'none';
       }
 
@@ -906,37 +886,25 @@
 
     async function runScaleTest() {
       const btn = document.getElementById('runTestBtn');
-      const resultsDiv = document.getElementById('testResults');
+      const resultsSpan = document.getElementById('testResultsInline');
       btn.disabled = true;
-      btn.textContent = 'Running...';
-      resultsDiv.innerHTML = 'Testing each query...';
+      btn.textContent = '⏳';
+      resultsSpan.textContent = 'Testing...';
+      resultsSpan.className = 'test-results-inline';
 
       let passed = 0;
-      let results = [];
 
       for (const test of testCases) {
         const matches = await matchPolicies(test.query);
         const foundInTop3 = matches.some(m => m.id === test.expectedId);
         if (foundInTop3) passed++;
-        results.push({
-          ...test,
-          passed: foundInTop3,
-          topResults: matches.slice(0, 3).map(m => m.id)
-        });
       }
 
       const precision = Math.round((passed / testCases.length) * 100);
 
-      // Show results
-      let html = `<div style="margin-bottom: 12px;"><strong>Precision: ${precision}%</strong> (${passed}/${testCases.length} queries found correct policy in top 3)</div>`;
-
-      results.forEach(r => {
-        const icon = r.passed ? '✅' : '❌';
-        const cls = r.passed ? 'test-pass' : 'test-fail';
-        html += `<div class="test-item ${cls}">${icon} "${r.query}" → ${r.label} ${r.passed ? 'found' : 'NOT found'}</div>`;
-      });
-
-      resultsDiv.innerHTML = html;
+      // Show inline results
+      resultsSpan.textContent = `${precision}% precision (${passed}/${testCases.length} correct)`;
+      resultsSpan.className = precision >= 60 ? 'test-results-inline pass' : 'test-results-inline fail';
 
       // Kill switch logic: if precision < 60%, show warning
       if (precision < 60) {
@@ -947,7 +915,7 @@
       }
 
       btn.disabled = false;
-      btn.textContent = 'Run Test';
+      btn.textContent = '▶ Run Test';
     }
   </script>
 </body>
