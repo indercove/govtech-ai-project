@@ -91,7 +91,7 @@ All data is synthetic and made up for learning purposes.
 
 | Component | Implementation | File |
 |-----------|----------------|------|
-| **UI** | Static HTML with inline CSS/JS | `prototype.html` |
+| **UI** | Static HTML with external CSS | `prototype.html`, `styles.css` |
 | **Matching algorithm** | Keyword-based scoring | `match.js` |
 | **Policy data** | JSON files with synthetic policies | `policy-index.json`, `policy-index-scale.json` |
 | **Reply generation** | Template substitution (no LLM) | `match.js` → `generateReplyDraft()` |
