@@ -1,36 +1,51 @@
-# Policy Recommendation Prototype
+# Policy Finder Prototype
 
 **Scenario:** A · ServiceSG enquiry response  
 **All data is synthetic and made up for learning purposes.**
 
-## What this tests
+## What it does
 
-The riskiest assumption: Can an AI tool recommend the right policy page from a ticket's content?
+Helps customer service officers find relevant policy pages and generate draft replies. Three-column workflow:
+
+1. **Paste enquiry** — Officer pastes ticket content
+2. **Find policies** — Tool shows top 3 matches with relevance scores
+3. **Generate draft** — Click a policy to get a draft reply
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| Keyword matching | Weighted scoring: keywords (30), title (10), summary (5) |
+| Category templates | Draft replies tailored to CPF, HDB, Healthcare, Education, Employment |
+| Scale test mode | Toggle to 250+ policies to test retrieval at scale |
+| Kill switch | Triggers if precision drops below 60% |
+| Sample queries | Quick-start buttons for common enquiry types |
 
 ## How to run
 
-1. Open `prototype.html` in a browser
-2. Paste a sample enquiry into the text box
-3. Click "Find Policies"
-4. See 1–3 recommended policy links with reasons
+Open via a local server (required for fetch to work):
+
+```
+cd day2-validate/prototype
+npx serve .
+```
+
+Or use the Claude Code preview server.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `prototype.html` | Single-page interface |
-| `policy-index.json` | 50 synthetic policy entries |
-| `match.js` | Keyword matching logic |
+| `prototype.html` | Main interface (3-column layout) |
+| `match.js` | Matching logic + draft templates |
+| `policy-index.json` | 50 synthetic policies |
+| `policy-index-scale.json` | 250+ policies for scale testing |
 
-## Success criteria
+## Stop line
 
-- Officer sees at least one relevant policy in the top 3 for 8/10 sample tickets
-- Time from paste to result < 3 seconds
+If precision at scale drops below 60%, the kill switch triggers. Stop and rethink retrieval before building further.
 
-## Sample test enquiries (synthetic)
+## Related
 
-1. "I want to withdraw my CPF for housing downpayment"
-2. "How do I apply for a HDB BTO flat as a single?"
-3. "My MediShield claim was rejected, what can I do?"
-4. "Can I use SkillsFuture credits for a driving course?"
-5. "My work pass is expiring next month, how do I renew?"
+- `context-skill.md` — Guardrails and test cases the prototype does not yet implement
+- `build-log.md` — What we tested and learned
