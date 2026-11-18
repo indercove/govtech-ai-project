@@ -81,6 +81,7 @@
       padding: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       display: none;
+      margin-bottom: 24px;
     }
     .results-section.visible {
       display: block;
@@ -92,10 +93,20 @@
       border-bottom: 1px solid #eee;
     }
     .result-card {
-      border: 1px solid #e0e0e0;
+      border: 2px solid #e0e0e0;
       border-radius: 6px;
       padding: 16px;
       margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .result-card:hover {
+      border-color: #0066cc;
+      background-color: #f8fbff;
+    }
+    .result-card.selected {
+      border-color: #0066cc;
+      background-color: #e6f0ff;
     }
     .result-card:last-child {
       margin-bottom: 0;
@@ -127,6 +138,13 @@
       color: #999;
       margin-top: 8px;
     }
+    .select-hint {
+      font-size: 13px;
+      color: #666;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+    }
     .no-results {
       color: #666;
       text-align: center;
@@ -148,6 +166,62 @@
     .sample-queries span:hover {
       background: #ddd;
     }
+    .draft-section {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .draft-section.visible {
+      display: block;
+    }
+    .draft-header {
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .draft-info {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+    .draft-info strong {
+      color: #333;
+    }
+    .draft-content {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .draft-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+    }
+    .draft-actions button {
+      margin-top: 0;
+    }
+    .btn-secondary {
+      background: #6c757d;
+    }
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    .copied-notice {
+      color: #28a745;
+      font-size: 14px;
+      margin-left: 12px;
+      display: none;
+    }
+    .copied-notice.visible {
+      display: inline;
+    }
   </style>
 </head>
 <body>
@@ -156,7 +230,7 @@
   </div>
 
   <h1>Policy Finder</h1>
-  <p class="subtitle">Paste a customer enquiry to find relevant policy pages</p>
+  <p class="subtitle">Paste a customer enquiry to find relevant policy pages and draft a reply</p>
 
   <div class="input-section">
     <label for="enquiry">Customer Enquiry</label>
@@ -165,21 +239,39 @@
 
     <div class="sample-queries">
       Try:
-      <span onclick="useSample(this)">CPF housing withdrawal</span>
-      <span onclick="useSample(this)">HDB single 35 years old</span>
-      <span onclick="useSample(this)">MediShield claim rejected</span>
-      <span onclick="useSample(this)">SkillsFuture driving course</span>
-      <span onclick="useSample(this)">work pass expiring renew</span>
+      <span onclick="useSample(this)">I want to withdraw my CPF for housing downpayment</span>
+      <span onclick="useSample(this)">Can I apply for HDB as a single person aged 35?</span>
+      <span onclick="useSample(this)">My MediShield claim was rejected</span>
+      <span onclick="useSample(this)">Can I use SkillsFuture for driving lessons?</span>
+      <span onclick="useSample(this)">My work pass is expiring next month</span>
     </div>
   </div>
 
   <div class="results-section" id="results">
     <div class="results-header">Recommended Policies</div>
     <div id="resultsList"></div>
+    <div class="select-hint">👆 Click a policy to generate a draft reply</div>
+  </div>
+
+  <div class="draft-section" id="draftSection">
+    <div class="draft-header">Draft Reply</div>
+    <div class="draft-info">
+      Based on: <strong id="selectedPolicy"></strong>
+    </div>
+    <div class="draft-content" id="draftContent"></div>
+    <div class="draft-actions">
+      <button onclick="copyDraft()">Copy to Clipboard</button>
+      <button class="btn-secondary" onclick="regenerateDraft()">Regenerate</button>
+      <span class="copied-notice" id="copiedNotice">✓ Copied!</span>
+    </div>
   </div>
 
   <script src="match.js"></script>
   <script>
+    let currentMatches = [];
+    let selectedPolicyIndex = null;
+    let currentEnquiry = '';
+
     async function findPolicies() {
       const enquiry = document.getElementById('enquiry').value.trim();
       if (!enquiry) {
@@ -187,12 +279,19 @@
         return;
       }
 
+      currentEnquiry = enquiry;
+      selectedPolicyIndex = null;
+
       const btn = document.getElementById('findBtn');
       btn.disabled = true;
       btn.textContent = 'Searching...';
 
+      // Hide draft section when searching again
+      document.getElementById('draftSection').classList.remove('visible');
+
       try {
         const matches = await matchPolicies(enquiry);
+        currentMatches = matches;
         displayResults(matches);
       } catch (err) {
         console.error(err);
@@ -210,8 +309,8 @@
       if (matches.length === 0) {
         resultsList.innerHTML = '<div class="no-results">No matching policies found. Try different keywords.</div>';
       } else {
-        resultsList.innerHTML = matches.map(m => `
-          <div class="result-card">
+        resultsList.innerHTML = matches.map((m, index) => `
+          <div class="result-card" onclick="selectPolicy(${index})" data-index="${index}">
             <div class="result-category">${m.category}</div>
             <div class="result-title">${m.title}</div>
             <div class="result-summary">${m.summary}</div>
@@ -222,6 +321,45 @@
       }
 
       resultsSection.classList.add('visible');
+    }
+
+    function selectPolicy(index) {
+      selectedPolicyIndex = index;
+      const policy = currentMatches[index];
+
+      // Update selected state visually
+      document.querySelectorAll('.result-card').forEach((card, i) => {
+        card.classList.toggle('selected', i === index);
+      });
+
+      // Generate and show draft
+      const draft = generateReplyDraft(currentEnquiry, policy);
+      document.getElementById('selectedPolicy').textContent = policy.title;
+      document.getElementById('draftContent').textContent = draft;
+      document.getElementById('draftSection').classList.add('visible');
+      document.getElementById('copiedNotice').classList.remove('visible');
+
+      // Scroll to draft
+      document.getElementById('draftSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function regenerateDraft() {
+      if (selectedPolicyIndex !== null) {
+        const policy = currentMatches[selectedPolicyIndex];
+        const draft = generateReplyDraft(currentEnquiry, policy, true);
+        document.getElementById('draftContent').textContent = draft;
+        document.getElementById('copiedNotice').classList.remove('visible');
+      }
+    }
+
+    function copyDraft() {
+      const draft = document.getElementById('draftContent').textContent;
+      navigator.clipboard.writeText(draft).then(() => {
+        document.getElementById('copiedNotice').classList.add('visible');
+        setTimeout(() => {
+          document.getElementById('copiedNotice').classList.remove('visible');
+        }, 2000);
+      });
     }
 
     function useSample(el) {
