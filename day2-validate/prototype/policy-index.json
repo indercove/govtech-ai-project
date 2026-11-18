@@ -1,0 +1,405 @@
+{
+  "_note": "ALL DATA IS SYNTHETIC AND MADE UP FOR LEARNING PURPOSES",
+  "policies": [
+    {
+      "id": "cpf-001",
+      "title": "CPF Ordinary Account Withdrawal for Housing",
+      "category": "CPF",
+      "keywords": ["cpf", "ordinary account", "oa", "housing", "downpayment", "hdb", "property", "withdraw"],
+      "summary": "Rules for using CPF OA savings to pay for housing downpayment and mortgage.",
+      "url": "https://example.gov.sg/cpf/housing-withdrawal"
+    },
+    {
+      "id": "cpf-002",
+      "title": "CPF Special Account Withdrawal at 55",
+      "category": "CPF",
+      "keywords": ["cpf", "special account", "sa", "55", "retirement", "withdraw", "age"],
+      "summary": "Conditions for withdrawing CPF SA savings after reaching 55 years old.",
+      "url": "https://example.gov.sg/cpf/sa-withdrawal-55"
+    },
+    {
+      "id": "cpf-003",
+      "title": "CPF Contribution Rates by Age",
+      "category": "CPF",
+      "keywords": ["cpf", "contribution", "rate", "employer", "employee", "age", "percentage"],
+      "summary": "Breakdown of CPF contribution rates based on employee age bands.",
+      "url": "https://example.gov.sg/cpf/contribution-rates"
+    },
+    {
+      "id": "cpf-004",
+      "title": "CPF MediSave Withdrawal for Medical Bills",
+      "category": "CPF",
+      "keywords": ["cpf", "medisave", "medical", "hospital", "bills", "claim", "withdraw"],
+      "summary": "How to use MediSave to pay for approved medical treatments and hospital stays.",
+      "url": "https://example.gov.sg/cpf/medisave-withdrawal"
+    },
+    {
+      "id": "cpf-005",
+      "title": "CPF Top-Up for Tax Relief",
+      "category": "CPF",
+      "keywords": ["cpf", "top-up", "tax", "relief", "sa", "ma", "retirement"],
+      "summary": "Tax benefits for voluntary CPF top-ups to SA or MediSave.",
+      "url": "https://example.gov.sg/cpf/top-up-tax-relief"
+    },
+    {
+      "id": "cpf-006",
+      "title": "CPF Nomination and Beneficiaries",
+      "category": "CPF",
+      "keywords": ["cpf", "nomination", "beneficiary", "death", "inherit", "family"],
+      "summary": "How to nominate beneficiaries for CPF savings distribution.",
+      "url": "https://example.gov.sg/cpf/nomination"
+    },
+    {
+      "id": "cpf-007",
+      "title": "CPF LIFE Monthly Payouts",
+      "category": "CPF",
+      "keywords": ["cpf", "life", "payout", "monthly", "retirement", "annuity", "65"],
+      "summary": "Understanding CPF LIFE plans and monthly payout amounts.",
+      "url": "https://example.gov.sg/cpf/life-payouts"
+    },
+    {
+      "id": "cpf-008",
+      "title": "CPF for Self-Employed Persons",
+      "category": "CPF",
+      "keywords": ["cpf", "self-employed", "freelance", "medisave", "contribution", "mandatory"],
+      "summary": "MediSave contribution requirements for self-employed individuals.",
+      "url": "https://example.gov.sg/cpf/self-employed"
+    },
+    {
+      "id": "cpf-009",
+      "title": "CPF Education Scheme Loan Repayment",
+      "category": "CPF",
+      "keywords": ["cpf", "education", "loan", "tuition", "repayment", "university"],
+      "summary": "Using CPF to pay for approved education and repayment terms.",
+      "url": "https://example.gov.sg/cpf/education-scheme"
+    },
+    {
+      "id": "cpf-010",
+      "title": "CPF Investment Scheme (CPFIS)",
+      "category": "CPF",
+      "keywords": ["cpf", "investment", "cpfis", "stocks", "funds", "oa", "sa"],
+      "summary": "Options for investing CPF savings in approved financial products.",
+      "url": "https://example.gov.sg/cpf/investment-scheme"
+    },
+    {
+      "id": "hdb-001",
+      "title": "HDB BTO Application Eligibility",
+      "category": "HDB",
+      "keywords": ["hdb", "bto", "eligibility", "apply", "flat", "new", "ballot"],
+      "summary": "Who can apply for a new HDB BTO flat and eligibility conditions.",
+      "url": "https://example.gov.sg/hdb/bto-eligibility"
+    },
+    {
+      "id": "hdb-002",
+      "title": "HDB Singles Scheme",
+      "category": "HDB",
+      "keywords": ["hdb", "single", "singles", "35", "unmarried", "bto", "resale"],
+      "summary": "Flat options for single Singaporeans aged 35 and above.",
+      "url": "https://example.gov.sg/hdb/singles-scheme"
+    },
+    {
+      "id": "hdb-003",
+      "title": "HDB Enhanced CPF Housing Grant (EHG)",
+      "category": "HDB",
+      "keywords": ["hdb", "grant", "ehg", "enhanced", "cpf", "income", "first-timer"],
+      "summary": "Income-based grant for eligible first-timer flat buyers.",
+      "url": "https://example.gov.sg/hdb/ehg-grant"
+    },
+    {
+      "id": "hdb-004",
+      "title": "HDB Resale Flat Purchase Process",
+      "category": "HDB",
+      "keywords": ["hdb", "resale", "buy", "purchase", "process", "steps", "otp"],
+      "summary": "Step-by-step guide to buying a resale HDB flat.",
+      "url": "https://example.gov.sg/hdb/resale-process"
+    },
+    {
+      "id": "hdb-005",
+      "title": "HDB Minimum Occupation Period (MOP)",
+      "category": "HDB",
+      "keywords": ["hdb", "mop", "minimum", "occupation", "sell", "rent", "years"],
+      "summary": "Rules on the 5-year MOP before selling or renting out HDB flat.",
+      "url": "https://example.gov.sg/hdb/mop"
+    },
+    {
+      "id": "hdb-006",
+      "title": "HDB Rental Flat Scheme",
+      "category": "HDB",
+      "keywords": ["hdb", "rental", "rent", "public", "low-income", "apply"],
+      "summary": "Public rental housing for lower-income households.",
+      "url": "https://example.gov.sg/hdb/rental-scheme"
+    },
+    {
+      "id": "hdb-007",
+      "title": "HDB Home Improvement Programme (HIP)",
+      "category": "HDB",
+      "keywords": ["hdb", "hip", "improvement", "upgrading", "repair", "maintenance"],
+      "summary": "Government-subsidised upgrading for older HDB flats.",
+      "url": "https://example.gov.sg/hdb/hip"
+    },
+    {
+      "id": "hdb-008",
+      "title": "HDB Subletting Rules and Approval",
+      "category": "HDB",
+      "keywords": ["hdb", "sublet", "subletting", "rent", "room", "tenant", "approval"],
+      "summary": "Conditions for renting out rooms in your HDB flat.",
+      "url": "https://example.gov.sg/hdb/subletting"
+    },
+    {
+      "id": "hdb-009",
+      "title": "HDB Divorce and Flat Ownership",
+      "category": "HDB",
+      "keywords": ["hdb", "divorce", "separation", "ownership", "transfer", "retain"],
+      "summary": "Options for HDB flat ownership after divorce.",
+      "url": "https://example.gov.sg/hdb/divorce-ownership"
+    },
+    {
+      "id": "hdb-010",
+      "title": "HDB Proximity Housing Grant (PHG)",
+      "category": "HDB",
+      "keywords": ["hdb", "proximity", "grant", "phg", "parents", "family", "near"],
+      "summary": "Grant for buying a flat near parents or children.",
+      "url": "https://example.gov.sg/hdb/proximity-grant"
+    },
+    {
+      "id": "health-001",
+      "title": "MediShield Life Coverage and Claims",
+      "category": "Healthcare",
+      "keywords": ["medishield", "life", "coverage", "claim", "hospital", "insurance"],
+      "summary": "What MediShield Life covers and how to submit claims.",
+      "url": "https://example.gov.sg/health/medishield-claims"
+    },
+    {
+      "id": "health-002",
+      "title": "MediShield Life Premium Subsidies",
+      "category": "Healthcare",
+      "keywords": ["medishield", "premium", "subsidy", "pioneer", "merdeka", "low-income"],
+      "summary": "Premium subsidies for Pioneer, Merdeka, and lower-income groups.",
+      "url": "https://example.gov.sg/health/medishield-subsidies"
+    },
+    {
+      "id": "health-003",
+      "title": "CHAS Card Eligibility and Benefits",
+      "category": "Healthcare",
+      "keywords": ["chas", "card", "clinic", "subsidy", "gp", "dental", "blue", "orange"],
+      "summary": "Subsidised outpatient care at CHAS clinics based on card type.",
+      "url": "https://example.gov.sg/health/chas"
+    },
+    {
+      "id": "health-004",
+      "title": "CareShield Life and ElderShield",
+      "category": "Healthcare",
+      "keywords": ["careshield", "eldershield", "disability", "long-term", "care", "payout"],
+      "summary": "Severe disability insurance coverage and payouts.",
+      "url": "https://example.gov.sg/health/careshield"
+    },
+    {
+      "id": "health-005",
+      "title": "Polyclinic Fees and Subsidies",
+      "category": "Healthcare",
+      "keywords": ["polyclinic", "fee", "subsidy", "consultation", "citizen", "pr"],
+      "summary": "Subsidised healthcare fees at public polyclinics.",
+      "url": "https://example.gov.sg/health/polyclinic-fees"
+    },
+    {
+      "id": "health-006",
+      "title": "MediFund Assistance Application",
+      "category": "Healthcare",
+      "keywords": ["medifund", "assistance", "financial", "hospital", "bill", "needy"],
+      "summary": "Financial assistance for Singaporeans who cannot afford medical bills.",
+      "url": "https://example.gov.sg/health/medifund"
+    },
+    {
+      "id": "health-007",
+      "title": "Healthier SG Enrolment",
+      "category": "Healthcare",
+      "keywords": ["healthier", "sg", "enrol", "gp", "family", "doctor", "preventive"],
+      "summary": "Enrolling with a family doctor under Healthier SG programme.",
+      "url": "https://example.gov.sg/health/healthier-sg"
+    },
+    {
+      "id": "health-008",
+      "title": "Vaccination Subsidies for Seniors",
+      "category": "Healthcare",
+      "keywords": ["vaccination", "vaccine", "flu", "pneumonia", "senior", "subsidy"],
+      "summary": "Subsidised vaccinations for seniors at polyclinics and CHAS clinics.",
+      "url": "https://example.gov.sg/health/senior-vaccinations"
+    },
+    {
+      "id": "edu-001",
+      "title": "SkillsFuture Credit Usage",
+      "category": "Education",
+      "keywords": ["skillsfuture", "credit", "course", "training", "claim", "use"],
+      "summary": "How to use SkillsFuture credits for approved courses.",
+      "url": "https://example.gov.sg/edu/skillsfuture-credit"
+    },
+    {
+      "id": "edu-002",
+      "title": "SkillsFuture Eligible Courses List",
+      "category": "Education",
+      "keywords": ["skillsfuture", "eligible", "courses", "approved", "list", "search"],
+      "summary": "Finding courses that qualify for SkillsFuture credit claims.",
+      "url": "https://example.gov.sg/edu/skillsfuture-courses"
+    },
+    {
+      "id": "edu-003",
+      "title": "SkillsFuture Mid-Career Enhanced Subsidy",
+      "category": "Education",
+      "keywords": ["skillsfuture", "mid-career", "40", "subsidy", "enhanced", "training"],
+      "summary": "Higher course fee subsidies for Singaporeans aged 40 and above.",
+      "url": "https://example.gov.sg/edu/midcareer-subsidy"
+    },
+    {
+      "id": "edu-004",
+      "title": "MOE Financial Assistance Scheme (FAS)",
+      "category": "Education",
+      "keywords": ["moe", "fas", "financial", "assistance", "school", "fees", "uniform"],
+      "summary": "Financial help for school fees, books, and uniforms.",
+      "url": "https://example.gov.sg/edu/moe-fas"
+    },
+    {
+      "id": "edu-005",
+      "title": "Post-Secondary Education Account (PSEA)",
+      "category": "Education",
+      "keywords": ["psea", "post-secondary", "education", "account", "tuition", "poly", "ite"],
+      "summary": "Using PSEA funds for approved post-secondary education fees.",
+      "url": "https://example.gov.sg/edu/psea"
+    },
+    {
+      "id": "edu-006",
+      "title": "Edusave Scheme and Withdrawals",
+      "category": "Education",
+      "keywords": ["edusave", "scheme", "withdrawal", "enrichment", "primary", "secondary"],
+      "summary": "Using Edusave for approved enrichment programmes and fees.",
+      "url": "https://example.gov.sg/edu/edusave"
+    },
+    {
+      "id": "edu-007",
+      "title": "Tuition Grant for University Students",
+      "category": "Education",
+      "keywords": ["tuition", "grant", "university", "nus", "ntu", "smu", "bond"],
+      "summary": "Government tuition grant and service bond requirements.",
+      "url": "https://example.gov.sg/edu/tuition-grant"
+    },
+    {
+      "id": "work-001",
+      "title": "Employment Pass (EP) Application",
+      "category": "Employment",
+      "keywords": ["employment", "pass", "ep", "apply", "foreign", "professional", "salary"],
+      "summary": "Eligibility and application process for Employment Pass.",
+      "url": "https://example.gov.sg/work/ep-application"
+    },
+    {
+      "id": "work-002",
+      "title": "S Pass Application and Quota",
+      "category": "Employment",
+      "keywords": ["s pass", "spass", "apply", "quota", "foreign", "mid-skilled"],
+      "summary": "S Pass requirements, quota limits, and application process.",
+      "url": "https://example.gov.sg/work/spass"
+    },
+    {
+      "id": "work-003",
+      "title": "Work Permit for Foreign Workers",
+      "category": "Employment",
+      "keywords": ["work permit", "foreign", "worker", "construction", "domestic", "levy"],
+      "summary": "Work permit categories, levy, and employer obligations.",
+      "url": "https://example.gov.sg/work/work-permit"
+    },
+    {
+      "id": "work-004",
+      "title": "Work Pass Renewal Process",
+      "category": "Employment",
+      "keywords": ["work pass", "renew", "renewal", "expiry", "extend", "ep", "spass"],
+      "summary": "How to renew work passes before expiry.",
+      "url": "https://example.gov.sg/work/renewal"
+    },
+    {
+      "id": "work-005",
+      "title": "Dependant's Pass Application",
+      "category": "Employment",
+      "keywords": ["dependant", "pass", "dp", "spouse", "child", "family", "ep"],
+      "summary": "Bringing family members to Singapore on Dependant's Pass.",
+      "url": "https://example.gov.sg/work/dependant-pass"
+    },
+    {
+      "id": "work-006",
+      "title": "Letter of Consent (LOC) for DP Holders",
+      "category": "Employment",
+      "keywords": ["loc", "letter", "consent", "dp", "work", "dependant", "employment"],
+      "summary": "Allowing Dependant's Pass holders to work in Singapore.",
+      "url": "https://example.gov.sg/work/loc"
+    },
+    {
+      "id": "work-007",
+      "title": "Long Term Visit Pass (LTVP) Work Rights",
+      "category": "Employment",
+      "keywords": ["ltvp", "long term", "visit", "pass", "work", "spouse", "pr"],
+      "summary": "Employment options for LTVP holders.",
+      "url": "https://example.gov.sg/work/ltvp-work"
+    },
+    {
+      "id": "work-008",
+      "title": "Fair Consideration Framework (FCF)",
+      "category": "Employment",
+      "keywords": ["fcf", "fair", "consideration", "framework", "jobs", "bank", "advertise"],
+      "summary": "Job advertising requirements before hiring foreign workers.",
+      "url": "https://example.gov.sg/work/fcf"
+    },
+    {
+      "id": "misc-001",
+      "title": "SingPass Registration and Reset",
+      "category": "Digital Services",
+      "keywords": ["singpass", "register", "reset", "password", "login", "2fa"],
+      "summary": "Setting up SingPass and resetting forgotten passwords.",
+      "url": "https://example.gov.sg/digital/singpass"
+    },
+    {
+      "id": "misc-002",
+      "title": "NS Deferment for Studies",
+      "category": "National Service",
+      "keywords": ["ns", "national service", "defer", "deferment", "study", "university"],
+      "summary": "Applying to defer NS for approved educational programmes.",
+      "url": "https://example.gov.sg/ns/deferment"
+    },
+    {
+      "id": "misc-003",
+      "title": "NS Exit Permit Application",
+      "category": "National Service",
+      "keywords": ["ns", "exit", "permit", "travel", "overseas", "reservist"],
+      "summary": "Travel requirements for NS-liable males.",
+      "url": "https://example.gov.sg/ns/exit-permit"
+    },
+    {
+      "id": "misc-004",
+      "title": "Income Tax Filing Deadlines",
+      "category": "Tax",
+      "keywords": ["income", "tax", "iras", "file", "deadline", "april", "return"],
+      "summary": "Annual income tax filing deadlines and late penalties.",
+      "url": "https://example.gov.sg/tax/filing-deadline"
+    },
+    {
+      "id": "misc-005",
+      "title": "GST Voucher Eligibility",
+      "category": "Tax",
+      "keywords": ["gst", "voucher", "gstv", "cash", "medisave", "u-save"],
+      "summary": "Who qualifies for GST Voucher payouts and how to receive them.",
+      "url": "https://example.gov.sg/tax/gst-voucher"
+    },
+    {
+      "id": "misc-006",
+      "title": "Passport Renewal Application",
+      "category": "Immigration",
+      "keywords": ["passport", "renew", "renewal", "ica", "apply", "photo"],
+      "summary": "How to renew Singapore passport online or at ICA.",
+      "url": "https://example.gov.sg/immigration/passport-renewal"
+    },
+    {
+      "id": "misc-007",
+      "title": "PR Application Process",
+      "category": "Immigration",
+      "keywords": ["pr", "permanent", "resident", "apply", "application", "ica"],
+      "summary": "Steps and documents needed for PR application.",
+      "url": "https://example.gov.sg/immigration/pr-application"
+    }
+  ]
+}
