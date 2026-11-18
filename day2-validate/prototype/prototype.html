@@ -193,6 +193,34 @@
     .sample-queries span:hover {
       background: #ddd;
     }
+    .scale-test-toggle {
+      background: #e8f4fd;
+      border: 1px solid #0066cc;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .scale-test-toggle label {
+      display: inline;
+      margin: 0;
+      cursor: pointer;
+    }
+    .scale-test-toggle input {
+      margin-right: 6px;
+      cursor: pointer;
+    }
+    .policy-count {
+      color: #666;
+      font-size: 13px;
+    }
+    .scale-test-active {
+      background: #fff3e0;
+      border-color: #ff9800;
+    }
     .draft-info {
       font-size: 13px;
       color: #666;
@@ -250,6 +278,14 @@
 <body>
   <div class="banner">
     ⚠️ <strong>Prototype only.</strong> All data is synthetic and made up for learning purposes.
+  </div>
+
+  <div class="scale-test-toggle">
+    <label>
+      <input type="checkbox" id="scaleTestToggle" onchange="toggleScaleTest()">
+      <strong>Scale Test Mode</strong> — Use 250+ policies instead of 50 to test if keyword matching still works at scale
+    </label>
+    <span id="policyCount" class="policy-count">(50 policies loaded)</span>
   </div>
 
   <h1>Policy Finder</h1>
@@ -322,6 +358,35 @@
     let currentMatches = [];
     let selectedPolicyIndex = null;
     let currentEnquiry = '';
+    let scaleTestMode = false;
+
+    async function toggleScaleTest() {
+      scaleTestMode = document.getElementById('scaleTestToggle').checked;
+      const toggle = document.querySelector('.scale-test-toggle');
+      const countSpan = document.getElementById('policyCount');
+
+      if (scaleTestMode) {
+        toggle.classList.add('scale-test-active');
+        countSpan.textContent = '(loading scale test data...)';
+        await switchPolicyIndex('policy-index-scale.json');
+        const count = await getPolicyCount();
+        countSpan.textContent = `(${count} policies loaded — scale test active)`;
+      } else {
+        toggle.classList.remove('scale-test-active');
+        countSpan.textContent = '(loading...)';
+        await switchPolicyIndex('policy-index.json');
+        const count = await getPolicyCount();
+        countSpan.textContent = `(${count} policies loaded)`;
+      }
+
+      // Clear results when switching
+      document.getElementById('resultsList').innerHTML =
+        'Enter an enquiry and click "Find Policies" to see recommendations';
+      document.getElementById('draftSection').style.display = 'none';
+      document.getElementById('draftPlaceholder').style.display = 'block';
+      currentMatches = [];
+      selectedPolicyIndex = null;
+    }
 
     async function findPolicies() {
       const enquiry = document.getElementById('enquiry').value.trim();
