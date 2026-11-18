@@ -68,7 +68,8 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      height: calc(100vh - 180px);
+      min-height: 300px;
+      max-height: calc(100vh - 200px);
       overflow-y: auto;
     }
     .card.empty-state {
@@ -467,6 +468,9 @@
     }
     .finder-view.active {
       display: block;
+    }
+    .main-layout.finder-view.active {
+      display: flex;
     }
   </style>
 </head>
