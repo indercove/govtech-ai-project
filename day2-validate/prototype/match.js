@@ -6,14 +6,26 @@
  */
 
 let policyIndex = null;
+let currentIndexFile = 'policy-index.json';
 
 async function loadPolicies() {
   if (policyIndex) return policyIndex;
 
-  const response = await fetch('policy-index.json');
+  const response = await fetch(currentIndexFile);
   const data = await response.json();
   policyIndex = data.policies;
   return policyIndex;
+}
+
+async function switchPolicyIndex(filename) {
+  currentIndexFile = filename;
+  policyIndex = null; // Force reload
+  await loadPolicies();
+}
+
+async function getPolicyCount() {
+  const policies = await loadPolicies();
+  return policies.length;
 }
 
 function tokenize(text) {
