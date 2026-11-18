@@ -8,6 +8,33 @@ All data in the prototype is synthetic and made up for learning purposes.
 
 ---
 
+## How to Run It
+
+1. Open a terminal in this repository
+2. Start a local server:
+   ```bash
+   cd day2-validate/prototype
+   python3 -m http.server 8080
+   ```
+3. Open http://localhost:8080/prototype.html in your browser
+
+**Important:** Opening the HTML file directly (double-click) will not work. The browser blocks JSON fetches from `file://` URLs due to CORS restrictions. You must use a local server.
+
+---
+
+## File Inventory
+
+| File | What it does |
+|------|-------------|
+| `prototype.html` | Main UI — inbox view, policy finder, draft reply |
+| `styles.css` | All CSS styling (extracted from HTML) |
+| `match.js` | Matching algorithm + reply template generation |
+| `policy-index.json` | 50 synthetic policies for normal testing |
+| `policy-index-scale.json` | 250 synthetic policies for scale testing |
+| `README.md` | Brief description of the prototype |
+
+---
+
 ## What It Does
 
 A browser-based tool that helps ServiceSG customer service officers:
@@ -20,6 +47,42 @@ The prototype also includes:
 - An inbox view with 8 sample tickets
 - Scale testing toggle (50 vs 250 policies)
 - Kill switch warning if precision drops below 60%
+
+---
+
+## How the Matching Algorithm Works
+
+Located in `match.js`, the `calculateScore()` function:
+
+1. **Tokenizes the query** — lowercase, remove punctuation, split on whitespace, drop 1-char words
+2. **Scores each policy** against the query tokens:
+   - Direct keyword match: **+30 points**
+   - Partial keyword match (substring): **+15 points**
+   - Title word match: **+10 points**
+   - Summary word match: **+5 points**
+3. **Normalizes** the score to a percentage: `score / queryTokens.length * 2`, capped at 100%
+4. **Returns top 3** policies with score > 0
+
+**Example:** Query "CPF housing withdrawal" (3 tokens) against a policy with keywords `["cpf", "housing", "downpayment"]`:
+- "cpf" matches keyword → +30
+- "housing" matches keyword → +30
+- "withdrawal" matches title → +10
+- Total: 70 / 3 * 2 = 47% → displayed as "Relevance score: 47%"
+
+---
+
+## How to Run the Scale Test
+
+1. Start the prototype (see "How to Run It")
+2. Check the **Scale Test** checkbox in the top bar
+3. The toggle changes from "50 policies" to "250 policies"
+4. Click **Run Test** to test 5 predefined queries
+5. Results show pass/fail and precision percentage
+
+**Interpreting results:**
+- ≥80% precision → Good; retrieval is working
+- 60–79% precision → Acceptable; monitor closely
+- <60% precision → **Kill switch triggers**; red warning banner appears
 
 ---
 
@@ -105,6 +168,51 @@ These choices were made deliberately. If you want to change them, check with the
 3. **Test template acceptability** with supervisors. Get sign-off that the draft language is safe to send.
 
 If all three pass, proceed to production spec. If any fail, iterate on the prototype or reconsider the approach.
+
+---
+
+## How to Add a New Policy
+
+Add an entry to `policy-index.json` (or `policy-index-scale.json` for scale testing):
+
+```json
+{
+  "id": "agency-nnn",
+  "title": "Human-readable policy title",
+  "category": "CPF | HDB | Healthcare | Education | Employment",
+  "keywords": ["keyword1", "keyword2", "phrase as single string"],
+  "summary": "One sentence describing what this policy covers.",
+  "url": "https://example.gov.sg/path/to/policy"
+}
+```
+
+**Tips:**
+- `id` must be unique across the file
+- `keywords` are the most important field — matching weights them highest (+30)
+- Include synonyms and abbreviations in keywords (e.g., "oa" for "ordinary account")
+- Keep `summary` under 100 words
+
+---
+
+## Known Limitations
+
+| Issue | Workaround |
+|-------|-----------|
+| **Must use local server** | `python3 -m http.server 8080` — direct file open fails due to CORS |
+| **No synonym handling** | Add synonyms manually to keywords array |
+| **No typo tolerance** | Misspellings won't match; consider fuzzy matching for production |
+| **Browser-only** | No persistence; refresh loses state |
+| **Hardcoded test queries** | Edit `runScaleTest()` in `prototype.html` to add more |
+
+---
+
+## Who to Contact
+
+| Question | Contact |
+|----------|---------|
+| Product decisions, scope, priorities | Product team (author of this handoff) |
+| Policy content, accuracy, freshness | Policy Operations Lead (to be assigned) |
+| Technical implementation | Engineering lead for this workstream |
 
 ---
 
