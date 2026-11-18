@@ -10,8 +10,7 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
+      margin: 0;
       padding: 24px;
       background: #f5f5f5;
       color: #333;
@@ -32,17 +31,59 @@
       color: #666;
       margin-bottom: 24px;
     }
-    .input-section {
+    .main-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .column {
+      flex: 1;
+      min-width: 0;
+    }
+    .column-header {
+      font-weight: 600;
+      font-size: 14px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-number {
+      background: #0066cc;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .card {
       background: white;
       border-radius: 8px;
-      padding: 24px;
+      padding: 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      margin-bottom: 24px;
+      height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+    .card.empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 14px;
+      text-align: center;
     }
     label {
       display: block;
       font-weight: 600;
       margin-bottom: 8px;
+      font-size: 14px;
     }
     textarea {
       width: 100%;
@@ -62,9 +103,9 @@
       background: #0066cc;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 6px;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       margin-top: 12px;
     }
@@ -75,28 +116,11 @@
       background: #ccc;
       cursor: not-allowed;
     }
-    .results-section {
-      background: white;
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: none;
-      margin-bottom: 24px;
-    }
-    .results-section.visible {
-      display: block;
-    }
-    .results-header {
-      font-weight: 600;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #eee;
-    }
     .result-card {
       border: 2px solid #e0e0e0;
       border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
       cursor: pointer;
       transition: border-color 0.2s, background-color 0.2s;
     }
@@ -112,7 +136,7 @@
       margin-bottom: 0;
     }
     .result-category {
-      font-size: 12px;
+      font-size: 11px;
       color: #666;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -121,29 +145,31 @@
     .result-title {
       font-weight: 600;
       color: #0066cc;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
     }
     .result-summary {
-      font-size: 14px;
+      font-size: 13px;
       color: #555;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .result-reason {
-      font-size: 13px;
+      font-size: 12px;
       color: #888;
       font-style: italic;
     }
     .result-score {
-      font-size: 12px;
+      font-size: 11px;
       color: #999;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .select-hint {
-      font-size: 13px;
+      font-size: 12px;
       color: #666;
-      margin-top: 16px;
-      padding-top: 12px;
+      margin-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid #eee;
+      text-align: center;
     }
     .no-results {
       color: #666;
@@ -152,7 +178,7 @@
     }
     .sample-queries {
       margin-top: 16px;
-      font-size: 13px;
+      font-size: 12px;
       color: #666;
     }
     .sample-queries span {
@@ -162,25 +188,10 @@
       border-radius: 4px;
       margin: 4px 4px 4px 0;
       cursor: pointer;
+      font-size: 11px;
     }
     .sample-queries span:hover {
       background: #ddd;
-    }
-    .draft-section {
-      background: white;
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: none;
-    }
-    .draft-section.visible {
-      display: block;
-    }
-    .draft-header {
-      font-weight: 600;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #eee;
     }
     .draft-info {
       font-size: 13px;
@@ -195,17 +206,23 @@
       border: 1px solid #e0e0e0;
       border-radius: 6px;
       padding: 16px;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.6;
       white-space: pre-wrap;
+      max-height: calc(100vh - 380px);
+      overflow-y: auto;
     }
     .draft-actions {
       margin-top: 16px;
       display: flex;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .draft-actions button {
       margin-top: 0;
+      font-size: 13px;
+      padding: 8px 16px;
     }
     .btn-secondary {
       background: #6c757d;
@@ -215,12 +232,18 @@
     }
     .copied-notice {
       color: #28a745;
-      font-size: 14px;
-      margin-left: 12px;
+      font-size: 13px;
       display: none;
     }
     .copied-notice.visible {
       display: inline;
+    }
+    .arrow {
+      color: #ccc;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      padding-top: 40px;
     }
   </style>
 </head>
@@ -230,39 +253,67 @@
   </div>
 
   <h1>Policy Finder</h1>
-  <p class="subtitle">Paste a customer enquiry to find relevant policy pages and draft a reply</p>
+  <p class="subtitle">Paste a customer enquiry → Find policies → Generate draft reply</p>
 
-  <div class="input-section">
-    <label for="enquiry">Customer Enquiry</label>
-    <textarea id="enquiry" placeholder="Paste the ticket content or enquiry here..."></textarea>
-    <button id="findBtn" onclick="findPolicies()">Find Policies</button>
+  <div class="main-layout">
+    <!-- Column 1: Input -->
+    <div class="column">
+      <div class="column-header">
+        <span class="step-number">1</span> Customer Enquiry
+      </div>
+      <div class="card">
+        <label for="enquiry">Paste the ticket content</label>
+        <textarea id="enquiry" placeholder="Paste the ticket content or enquiry here..."></textarea>
+        <button id="findBtn" onclick="findPolicies()">Find Policies →</button>
 
-    <div class="sample-queries">
-      Try:
-      <span onclick="useSample(this)">I want to withdraw my CPF for housing downpayment</span>
-      <span onclick="useSample(this)">Can I apply for HDB as a single person aged 35?</span>
-      <span onclick="useSample(this)">My MediShield claim was rejected</span>
-      <span onclick="useSample(this)">Can I use SkillsFuture for driving lessons?</span>
-      <span onclick="useSample(this)">My work pass is expiring next month</span>
+        <div class="sample-queries">
+          Try:
+          <span onclick="useSample(this)">CPF housing withdrawal</span>
+          <span onclick="useSample(this)">HDB single 35</span>
+          <span onclick="useSample(this)">MediShield rejected</span>
+          <span onclick="useSample(this)">SkillsFuture driving</span>
+          <span onclick="useSample(this)">work pass expiring</span>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="results-section" id="results">
-    <div class="results-header">Recommended Policies</div>
-    <div id="resultsList"></div>
-    <div class="select-hint">👆 Click a policy to generate a draft reply</div>
-  </div>
+    <div class="arrow">→</div>
 
-  <div class="draft-section" id="draftSection">
-    <div class="draft-header">Draft Reply</div>
-    <div class="draft-info">
-      Based on: <strong id="selectedPolicy"></strong>
+    <!-- Column 2: Policies -->
+    <div class="column">
+      <div class="column-header">
+        <span class="step-number">2</span> Recommended Policies
+      </div>
+      <div class="card" id="policiesCard">
+        <div id="resultsList" class="empty-state-text">
+          Enter an enquiry and click "Find Policies" to see recommendations
+        </div>
+      </div>
     </div>
-    <div class="draft-content" id="draftContent"></div>
-    <div class="draft-actions">
-      <button onclick="copyDraft()">Copy to Clipboard</button>
-      <button class="btn-secondary" onclick="regenerateDraft()">Regenerate</button>
-      <span class="copied-notice" id="copiedNotice">✓ Copied!</span>
+
+    <div class="arrow">→</div>
+
+    <!-- Column 3: Draft Reply -->
+    <div class="column">
+      <div class="column-header">
+        <span class="step-number">3</span> Draft Reply
+      </div>
+      <div class="card" id="draftCard">
+        <div id="draftPlaceholder" class="empty-state-text">
+          Click a policy to generate a draft reply
+        </div>
+        <div id="draftSection" style="display: none;">
+          <div class="draft-info">
+            Based on: <strong id="selectedPolicy"></strong>
+          </div>
+          <div class="draft-content" id="draftContent"></div>
+          <div class="draft-actions">
+            <button onclick="copyDraft()">Copy to Clipboard</button>
+            <button class="btn-secondary" onclick="regenerateDraft()">Regenerate</button>
+            <span class="copied-notice" id="copiedNotice">✓ Copied!</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -287,7 +338,8 @@
       btn.textContent = 'Searching...';
 
       // Hide draft section when searching again
-      document.getElementById('draftSection').classList.remove('visible');
+      document.getElementById('draftSection').style.display = 'none';
+      document.getElementById('draftPlaceholder').style.display = 'block';
 
       try {
         const matches = await matchPolicies(enquiry);
@@ -298,12 +350,11 @@
         alert('Error finding policies');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Find Policies';
+        btn.textContent = 'Find Policies →';
       }
     }
 
     function displayResults(matches) {
-      const resultsSection = document.getElementById('results');
       const resultsList = document.getElementById('resultsList');
 
       if (matches.length === 0) {
@@ -317,10 +368,8 @@
             <div class="result-reason">Matched: ${m.reason}</div>
             <div class="result-score">Relevance score: ${m.score}%</div>
           </div>
-        `).join('');
+        `).join('') + '<div class="select-hint">👆 Click a policy to generate a draft</div>';
       }
-
-      resultsSection.classList.add('visible');
     }
 
     function selectPolicy(index) {
@@ -336,11 +385,9 @@
       const draft = generateReplyDraft(currentEnquiry, policy);
       document.getElementById('selectedPolicy').textContent = policy.title;
       document.getElementById('draftContent').textContent = draft;
-      document.getElementById('draftSection').classList.add('visible');
+      document.getElementById('draftPlaceholder').style.display = 'none';
+      document.getElementById('draftSection').style.display = 'block';
       document.getElementById('copiedNotice').classList.remove('visible');
-
-      // Scroll to draft
-      document.getElementById('draftSection').scrollIntoView({ behavior: 'smooth' });
     }
 
     function regenerateDraft() {
