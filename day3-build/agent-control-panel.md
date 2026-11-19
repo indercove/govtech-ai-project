@@ -98,7 +98,7 @@ The agent stops and alerts when:
 
 ## Permissions
 
-One row per tool the agent uses. Each tool has a tier (read, draft, write, send) and a proposed setting (auto, confirm, block). Settings marked **Proposed** — you decide.
+One row per tool the agent uses. Each tool has a tier (read, draft, write, send) and a setting (auto, confirm, block).
 
 **Tiers:**
 - **Read** — agent looks something up; no side effects
@@ -113,50 +113,56 @@ One row per tool the agent uses. Each tool has a tier (read, draft, write, send)
 
 ### Read tools
 
-| Tool | Tier | Proposed | Stress test evidence | Your choice |
-|------|------|----------|----------------------|-------------|
-| **Policy search** | Read | Auto | Runs 1–6: search ran without issue when input was present | _____ |
-| **Input validation** | Read | Auto | Runs 4, 4b: empty input was caught before search; explicit rule added | _____ |
-| **Risk tier lookup** | Read | Auto | Runs 2, 2b: high-risk tag lookup worked correctly | _____ |
-| **Conflict checker** | Read | Auto | Not triggered in stress tests; read-only lookup | _____ |
-| **Supervisor list lookup** | Read | Auto | Run 2b: lookup worked; invalid ID rejected | _____ |
+| Tool | Tier | Setting | Evidence |
+|------|------|---------|----------|
+| **Policy search** | Read | Auto | Runs 1–6: search ran without issue when input was present |
+| **Input validation** | Read | Auto | Runs 4, 4b: empty input was caught before search; explicit rule added |
+| **Risk tier lookup** | Read | Auto | Runs 2, 2b: high-risk tag lookup worked correctly |
+| **Conflict checker** | Read | Auto | Not triggered in stress tests; read-only lookup |
+| **Supervisor list lookup** | Read | Auto | Run 2b: lookup worked; invalid ID rejected |
 
 ### Draft tools
 
-| Tool | Tier | Proposed | Stress test evidence | Your choice |
-|------|------|----------|----------------------|-------------|
-| **Draft generator** | Draft | Auto | Runs 1, 2, 2b: draft shown to officer; officer edits before send | _____ |
-| **Show relevance scores** | Draft | Auto | Runs 1–6: scores shown with every result; helped officer see low confidence | _____ |
-| **Show low-confidence warning** | Draft | Auto | Runs 5, 6: warning displayed when scores below threshold | _____ |
-| **Show escalation banner** | Draft | Auto | Runs 2, 2b: banner appeared when high-risk policy selected | _____ |
+| Tool | Tier | Setting | Evidence |
+|------|------|---------|----------|
+| **Draft generator** | Draft | Auto | Runs 1, 2, 2b: draft shown to officer; officer edits before send |
+| **Show relevance scores** | Draft | Auto | Runs 1–6: scores shown with every result; helped officer see low confidence |
+| **Show low-confidence warning** | Draft | Auto | Runs 5, 6: warning displayed when scores below threshold |
+| **Show escalation banner** | Draft | Auto | Runs 2, 2b: banner appeared when high-risk policy selected |
+
+**Draft generator discretion:** The agent may add empathy sentences (e.g. "I understand this is frustrating") beyond the policy summary. The officer can remove them before sending.
 
 ### Write tools
 
-| Tool | Tier | Proposed | Stress test evidence | Your choice |
-|------|------|----------|----------------------|-------------|
-| **Log recommendation** | Write | Auto | All runs: policies_shown logged correctly | _____ |
-| **Log policy selected** | Write | Auto | Runs 1, 2, 2b: selection logged | _____ |
-| **Log supervisor verification** | Write | Auto | Run 2b: supervisor_id and supervisor_name logged | _____ |
-| **Log refusal** | Write | Auto | Run 3: refusal_reason logged | _____ |
-| **Log stop condition** | Write | Auto | Runs 4–6, 4b: stop_condition_triggered logged | _____ |
-| **Disable send button** | Write | Auto | Runs 2, 2b: send blocked until supervisor verified | _____ |
+| Tool | Tier | Setting | Evidence |
+|------|------|---------|----------|
+| **Log recommendation** | Write | Auto | All runs: policies_shown logged correctly |
+| **Log policy selected** | Write | Auto | Runs 1, 2, 2b: selection logged |
+| **Log supervisor verification** | Write | Auto | Run 2b: supervisor_id and supervisor_name logged |
+| **Log refusal** | Write | Auto | Run 3: refusal_reason logged |
+| **Log stop condition** | Write | Auto | Runs 4–6, 4b: stop_condition_triggered logged |
+| **Log draft discarded** | Write | Auto | Officer starts draft but does not send; event logged (no content) |
+| **Disable send button** | Write | Auto | Runs 2, 2b: send blocked until supervisor verified |
 
 ### Send tools
 
-| Tool | Tier | Proposed | Stress test evidence | Your choice |
-|------|------|----------|----------------------|-------------|
-| **Enable send button** | Send | Confirm | Run 2b: send enabled only after supervisor ID verified; officer still clicks send | _____ |
-| **Send reply to citizen** | Send | Block | All runs: agent never sends; officer owns final action | _____ |
+| Tool | Tier | Setting | Evidence |
+|------|------|---------|----------|
+| **Enable send button (standard)** | Send | Auto | Standard policies enable send after draft review; no extra confirmation |
+| **Enable send button (high-risk)** | Send | Confirm | Run 2b: send enabled only after supervisor ID verified |
+| **Send reply to citizen** | Send | Block | All runs: agent never sends; officer owns final action |
 
 ### Blocked actions (no tool — agent cannot do these)
 
-| Action | Tier | Setting | Why |
-|--------|------|---------|-----|
-| Access resident personal data | — | Block | Run 3: agent refused CPF balance lookup |
-| Bypass supervisor review | — | Block | Run 2b: invalid ID rejected; bypass not possible |
-| Auto-select policy | — | Block | Runs 1–6: agent waited for officer click |
-| Invent non-existent policy | — | Block | Run 5: agent did not pretend MOM-9999 exists |
-| Guess when input is empty | — | Block | Runs 4, 4b: agent did not hallucinate a topic |
+| Action | Setting | Why |
+|--------|---------|-----|
+| Access resident personal data | Block | Run 3: agent refused CPF balance lookup |
+| Bypass supervisor review | Block | Run 2b: invalid ID rejected; bypass not possible |
+| Auto-select policy | Block | Runs 1–6: agent waited for officer click |
+| Invent non-existent policy | Block | Run 5: agent did not pretend MOM-9999 exists |
+| Guess when input is empty | Block | Runs 4, 4b: agent did not hallucinate a topic |
+
+**No override path:** Blocked actions stay blocked even if the officer insists. The agent refuses and the officer uses manual search.
 
 ---
 
