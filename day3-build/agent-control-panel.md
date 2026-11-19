@@ -125,4 +125,98 @@ Track these metrics weekly:
 
 ---
 
+## Business owner questions
+
+Questions a business owner would ask before funding this, with answers.
+
+### 1. What does this cost to build and run?
+
+| Item | One-time | Ongoing |
+|------|----------|---------|
+| Build supervisor verification feature | 2 sprints (~$40K dev cost) | — |
+| Integrate supervisor list from HR system | 1 sprint (~$20K) | — |
+| Policy Operations Lead (new role) | — | 0.5 FTE (~$50K/year) |
+| Cloud/API costs for risk tier lookup | — | Negligible (<$500/year) |
+| **Total** | **~$60K** | **~$50K/year** |
+
+*All figures are synthetic estimates for learning purposes.*
+
+### 2. What's the payback?
+
+| Benefit | Estimate | How we calculated |
+|---------|----------|-------------------|
+| Reduced escalation time | 4 min/high-risk ticket × 200 tickets/month = 13 hrs/month | Officers currently spend ~8 min deciding whether to escalate; agent makes it instant |
+| Avoided complaints from wrong high-risk responses | 1–2 complaints/year avoided = ~$10K in investigation + remediation | Based on current complaint rate for benefits-related responses |
+| Audit readiness | Passes audit without manual log reconstruction | Current state: no record of who reviewed what |
+
+**Payback period:** ~12–18 months if complaint avoidance materialises; longer if benefit is mainly audit readiness.
+
+### 3. What's the worst that can happen?
+
+| Scenario | Likelihood | Impact | Mitigation |
+|----------|------------|--------|------------|
+| Agent fails to flag a high-risk policy | Low (tag is in policy index) | High — vulnerable resident gets wrong guidance | Kill switch at 10% failure rate; weekly audit of flagging accuracy |
+| Supervisor list is stale (departed supervisor still valid) | Medium | Medium — audit trail is incomplete | HR sync weekly; manual review if sync fails |
+| Officers game the system (enter any supervisor ID) | Low (ID is verified) | Medium — defeats the purpose | Log all verifications; spot-check 5% weekly |
+| Agent is unavailable | Low | Low — officers fall back to manual escalation | Standard policies still work; only high-risk drafts blocked |
+
+**Worst case:** A high-risk policy is not tagged, agent does not flag it, officer sends wrong guidance to a vulnerable resident. This is the same risk as today (officer decides alone), not worse.
+
+### 4. Who is accountable if it goes wrong?
+
+| Role | Accountable for |
+|------|-----------------|
+| **Policy Operations Lead** | Correct risk tier tags; policy index freshness |
+| **Officer** | Final response sent to resident |
+| **Supervisor** | Accuracy of responses they verified |
+| **Product team** | Agent working as designed; kill switch triggers correctly |
+| **HR / Team Lead** | Supervisor list accuracy |
+
+The agent does not shift accountability. It enforces checkpoints that already exist in policy.
+
+### 5. What do we have to maintain forever?
+
+| Item | Owner | Effort |
+|------|-------|--------|
+| Supervisor list sync with HR | IT / HR | ~2 hrs/month to monitor sync |
+| Risk tier tags on new policies | Policy Operations Lead | ~1 hr per new policy |
+| Agent code and infrastructure | Engineering | Included in platform maintenance |
+| Monitoring dashboard | Product team | ~1 hr/week to review metrics |
+
+**If we stop maintaining:** Supervisor list goes stale (1–2 months before noticeable); risk tags on new policies missing (immediate). Agent still works but becomes less useful.
+
+### 6. Can we turn it off?
+
+**Yes.** Three levels:
+
+| Level | What it does | When to use |
+|-------|--------------|-------------|
+| **Disable high-risk blocking** | Agent recommends policies but does not enforce supervisor verification | If verification is slowing officers too much |
+| **Disable agent entirely** | Officers search policies manually; no draft generation | If agent is causing more problems than it solves |
+| **Kill switch (automatic)** | Triggers if >10% of high-risk responses bypass verification | Bug or systematic workaround detected |
+
+Turning off returns officers to the current state. No data is lost; audit logs remain.
+
+### 7. What's the risk to the organisation's reputation?
+
+| Risk | Likelihood | Mitigation |
+|------|------------|------------|
+| "AI is making decisions about vulnerable residents" | Medium (misperception) | Agent does not decide; it enforces a checkpoint. Human reviews and sends. |
+| "Officers are being replaced" | Low | Officer count unchanged; tool saves search time, not headcount |
+| "Government is using AI without oversight" | Low | Full audit trail; human-in-the-loop is mandatory |
+
+**Key message for stakeholders:** The agent enforces existing policy (supervisor review for high-risk cases). It does not create new rules or replace human judgement.
+
+### 8. What happens if we don't fund this?
+
+| Current state | Risk |
+|---------------|------|
+| Officers decide alone whether to escalate | Inconsistent — some over-escalate (slow), some under-escalate (risky) |
+| No audit trail of who reviewed high-risk responses | Audit finding; cannot prove compliance |
+| Vulnerable residents may receive wrong guidance | Complaints, remediation, reputational damage |
+
+**Cost of inaction:** Harder to quantify, but one serious complaint involving a vulnerable resident can cost more than the entire build.
+
+---
+
 *All data in this file is synthetic and made up for learning purposes.*
