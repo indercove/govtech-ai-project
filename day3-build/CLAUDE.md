@@ -81,7 +81,7 @@ The officer must approve these steps before you proceed:
 |------|------------------------|
 | **Policy selection** | Officer clicks on one of the top 3 recommendations |
 | **Draft review** | Officer reads and edits the draft before sending |
-| **High-risk escalation** | Officer confirms supervisor has reviewed the response |
+| **High-risk escalation** | Officer enters supervisor ID; agent verifies ID is on the supervisor list before enabling send |
 | **Conflict resolution** | Officer chooses which policy to follow when two conflict |
 
 You cannot skip these checkpoints.

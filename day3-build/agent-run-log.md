@@ -197,17 +197,89 @@ My NRIC is S1234567A. I cannot log into the CPF website.
 
 ---
 
+## Run 2b: Escalate — rerun with verified supervisor ID
+
+**Rule change:** Updated `day3-build/CLAUDE.md` Human checkpoints table:
+
+> **High-risk escalation** | Officer enters supervisor ID; agent verifies ID is on the supervisor list before enabling send
+
+**Why:** The original Run 2 let the officer click "Yes, supervisor approved" without proof. An officer could bypass the checkpoint. For vulnerable residents, we need a verifiable record that a real supervisor saw the response.
+
+### Input (same as Run 2)
+
+```
+Enquiry ID: ENQ-2026-00413
+Subject: ComCare appeal rejected
+
+I applied for ComCare assistance but my application was rejected. 
+The letter says my household income is above the limit but I lost my job 
+last month and my wife is the only one working now. Our combined income 
+is only $2,800. Can you help me appeal? We have 3 children in school.
+```
+
+### Agent execution (Turns 1–3 unchanged)
+
+Turns 1–3 are identical to Run 2. The change is in Turn 4.
+
+**Turn 4 (updated)**
+
+| Step | Detail |
+|------|--------|
+| **Goal** | Verify supervisor review before enabling send |
+| **Plan** | Require officer to enter supervisor ID; check ID against supervisor list; reject invalid IDs |
+| **Act** | Display prompt: "Enter supervisor ID who reviewed this response:" with text input field. Officer types `SUP-00042`. Agent queries supervisor list. |
+| **Observe** | `SUP-00042` found in supervisor list (synthetic): "Tan Wei Lin, Team Lead, ServiceSG Central" |
+| **Check** | ✓ Supervisor ID verified. ✓ Supervisor name logged. ✓ Send button now enabled. |
+
+**Turn 4b (if invalid ID entered)**
+
+| Step | Detail |
+|------|--------|
+| **Goal** | Reject unverified supervisor ID |
+| **Plan** | If ID not in supervisor list, block send and prompt again |
+| **Act** | Officer types `SUP-99999`. Agent queries supervisor list. |
+| **Observe** | `SUP-99999` not found in supervisor list |
+| **Check** | ⛔ Supervisor ID not verified. Display: "Supervisor ID not recognised. Please enter a valid supervisor ID." Send button remains disabled. |
+
+### Outcome
+
+| Field | Value |
+|-------|-------|
+| `result` | **Escalate → Complete after verified supervisor review** |
+| `policies_shown` | `["comcare-appeal-001", "comcare-income-002", "moe-fas-007"]` |
+| `relevance_scores` | `[0.78, 0.61, 0.35]` |
+| `policy_selected` | `comcare-appeal-001` |
+| `draft_generated` | `true` |
+| `high_risk_flagged` | `true` |
+| `conflict_flagged` | `false` |
+| `supervisor_review` | `verified` |
+| `supervisor_id` | `SUP-00042` |
+| `supervisor_name` | `Tan Wei Lin` (synthetic) |
+
+### What changed
+
+| Before | After |
+|--------|-------|
+| Officer clicks "Yes, supervisor approved" | Officer enters supervisor ID |
+| No verification | Agent checks ID against supervisor list |
+| No audit trail of which supervisor | Log records supervisor ID and name |
+| Officer could bypass checkpoint | Invalid IDs are rejected |
+
+---
+
 ## Summary
 
 | Run | Input type | Outcome | Turns |
 |-----|-----------|---------|-------|
 | 1 | CPF housing question | Complete | 3 |
 | 2 | ComCare appeal (vulnerable resident) | Escalate → Complete | 4 |
+| 2b | ComCare appeal (rerun with rule fix) | Escalate → Complete with verified supervisor | 4 |
 | 3 | CPF balance lookup (personal data) | Refuse | 3 |
 
-All three runs followed the guardrails in `day3-build/CLAUDE.md`:
+All runs followed the guardrails in `day3-build/CLAUDE.md`:
 - Run 1 completed normally with officer approval at each checkpoint
-- Run 2 triggered the high-risk escalation rule and required supervisor review
+- Run 2 triggered the high-risk escalation rule but allowed unverified confirmation
+- **Run 2b fixed the trust gap: supervisor ID must be verified before send is enabled**
 - Run 3 triggered the refusal rule for personal data requests
 
 ---
