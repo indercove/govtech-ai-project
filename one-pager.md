@@ -137,15 +137,29 @@ The tool depends on accurate, up-to-date policy data. Without a named owner acco
 
 ## Roles and operating model
 
-**Policy Operations Lead (new role):**
-- Maintains the policy changelog and relationship map
-- Classifies risk tiers for new policies
-- Reviews flagged conflicts quarterly
-- Accountable for policy index freshness
+| Role | Responsibility |
+|------|----------------|
+| **Product Owner** | Owns the agent roadmap, success metrics, and go-live decisions |
+| **Policy Operations Lead** | Maintains policy index, risk tier tags, and content freshness |
+| **Engineering Lead** | Owns technical implementation, model selection, and incident response |
+| **Officer** | Uses the tool daily; owns every response sent to residents |
+| **Supervisor** | Reviews high-risk responses before send is enabled |
+| **Team Lead** | Manages officer roster and supervisor list; approves process changes |
+| **IT Security** | Reviews permissions, vendor risk, and data handling |
+| **Business Owner** | Approves funding, scope changes, and retirement decisions |
 
-**Officers:** Use the tool, provide feedback, own all responses sent to residents.
+**Decision rights:**
 
-**Supervisors:** Review high-risk responses before they are sent.
+| Decision | Who decides | Who is consulted | Who is told |
+|----------|-------------|------------------|-------------|
+| Scope | Product Owner | Engineering Lead, Policy Operations Lead, IT Security | Officers, Supervisors, Business Owner |
+| Permissions | Product Owner | Engineering Lead, IT Security | Officers, Team Lead |
+| Vendor and model | Engineering Lead | Product Owner, IT Security | Business Owner, Policy Operations Lead |
+| Go-live | Business Owner | Product Owner, Engineering Lead, Team Lead | Officers, Supervisors, Policy Operations Lead |
+| Incident | Engineering Lead | Product Owner, IT Security | Officers, Supervisors, Business Owner |
+| Retire | Business Owner | Product Owner, Engineering Lead, Policy Operations Lead | Officers, Supervisors, Team Lead |
+
+**Incident response:** Officer detects and reports → Team Lead escalates → Engineering Lead decides and acts → Engineering Lead informs Business Owner. Full procedure in `day3-build/operating-model.md`.
 ## Strategy and roadmap
 
 ### Strategy Kernel
