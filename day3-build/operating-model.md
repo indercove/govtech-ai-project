@@ -32,6 +32,30 @@ All data is synthetic and made up for learning purposes.
 
 ---
 
+## Incident response
+
+**Scenario:** At 08:00 on Monday the agent drafts a wrong answer; the officer sends it to a resident.
+
+| Step | Who | Action | Timeframe |
+|------|-----|--------|-----------|
+| 1. Detect | Officer or Supervisor | Spots the error (resident complaint, audit, or self-review) | As it happens |
+| 2. Report | Officer | Logs the incident and notifies Team Lead | Within 1 hour |
+| 3. Escalate | Team Lead | Notifies Engineering Lead and Product Owner | Within 2 hours |
+| 4. Decide | Engineering Lead | Assesses severity; decides whether to trigger kill switch | Within 4 hours |
+| 5. Act | Engineering Lead | Disables agent or restricts scope if needed | Same day |
+| 6. Inform | Engineering Lead | Tells Business Owner what happened and what was done | Same day |
+| 7. Remediate | Officer + Supervisor | Sends corrected response to resident | As soon as possible |
+| 8. Review | Product Owner + Engineering Lead | Root cause analysis; updates stop conditions or guardrails | Within 1 week |
+
+**Who can trigger the kill switch:**
+- **Engineering Lead** — primary authority
+- **Product Owner** — backup if Engineering Lead unreachable
+- **Team Lead** — emergency only; must inform Engineering Lead immediately after
+
+**What gets logged:** Incident timestamp, affected resident (hashed), wrong policy shown, correct policy, root cause, remediation taken.
+
+---
+
 ## How to read this table
 
 - **Who decides:** Has final authority. One role only.
