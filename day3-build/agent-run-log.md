@@ -463,4 +463,85 @@ All three stress tests were caught by existing guardrails in the agent harness:
 
 ---
 
+## Run 4b: Rerun — Empty Enquiry with Explicit Stop Condition
+
+**Rule change:** Added to Stop conditions table in `day3-build/CLAUDE.md`:
+
+> **Empty or missing enquiry** | Do not search; prompt officer to paste the enquiry text before proceeding
+
+**Why:** Run 4 was caught by inference from Context and memory ("agent needs enquiry text"), but there was no explicit stop condition. Adding the rule makes it clear that empty input is a defined edge case, not an implied one.
+
+### Input (same as Run 4)
+
+```
+Enquiry ID: ENQ-2026-00415
+Subject: (empty)
+
+(no enquiry text provided)
+```
+
+### Agent execution
+
+**Turn 1**
+
+| Step | Detail |
+|------|--------|
+| **Goal** | Find relevant policies for a citizen enquiry |
+| **Plan** | Check if enquiry text is present before searching |
+| **Act** | Validate input: enquiry text is empty |
+| **Observe** | ⛔ Stop condition triggered: "Empty or missing enquiry" |
+| **Check** | ✓ Explicit stop condition matched. Agent does not proceed to search. |
+
+**Turn 2**
+
+| Step | Detail |
+|------|--------|
+| **Goal** | Prompt officer to provide enquiry text |
+| **Plan** | Display message per stop condition rule: "prompt officer to paste the enquiry text before proceeding" |
+| **Act** | Display: "No enquiry text provided. Please paste the citizen's enquiry before I can search for relevant policies." |
+| **Observe** | Officer sees clear prompt to provide input |
+| **Check** | ✓ Agent followed the explicit stop condition rule. ✓ No search attempted. ✓ No guessing. |
+
+### Outcome
+
+| Field | Value |
+|-------|-------|
+| `result` | **Blocked — empty input (explicit rule)** |
+| `policies_shown` | `[]` |
+| `relevance_scores` | `[]` |
+| `policy_selected` | `null` |
+| `draft_generated` | `false` |
+| `stop_condition_triggered` | `empty_or_missing_enquiry` |
+
+### Harness part that caught it
+
+| Section | Rule |
+|---------|------|
+| **Stop conditions** | "Empty or missing enquiry: Do not search; prompt officer to paste the enquiry text before proceeding" |
+
+### What changed
+
+| Before (Run 4) | After (Run 4b) |
+|----------------|----------------|
+| Caught by inference from Context and memory | Caught by explicit Stop condition |
+| Agent had to reason that empty input = no keywords | Agent checks for empty input as first validation step |
+| Rule was implicit | Rule is explicit and auditable |
+
+**Benefit of the explicit rule:** An auditor reviewing the harness can now see that empty input is a defined edge case. The agent does not rely on reasoning about keywords — it checks for the stop condition directly.
+
+---
+
+## Updated Summary: Stress Test Results
+
+| Run | Input type | Stress condition | Outcome | Harness part that caught it |
+|-----|-----------|------------------|---------|----------------------------|
+| 4 | Empty | No enquiry text | Blocked — asked for input | Context and memory ("agent needs enquiry text") |
+| **4b** | Empty (rerun) | No enquiry text | Blocked — explicit stop condition | **Stop conditions ("Empty or missing enquiry")** |
+| 5 | Non-existent policy | Cited MOM-9999 | Low confidence — policy not found | Context and memory ("only knows 50 policies"), Permissions ("must not pretend to access") |
+| 6 | Nonsense benefit | "Quantum computing benefit" | Low confidence — benefit not found | Stop conditions ("No match above 20%", "Precision below 60%") |
+
+**Lesson:** Run 4b shows how making an implicit rule explicit improves auditability. The agent now catches empty input at the stop condition check, before attempting any search logic.
+
+---
+
 *All data in this file is synthetic and made up for learning purposes.*

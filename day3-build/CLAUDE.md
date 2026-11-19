@@ -94,6 +94,7 @@ Stop and alert the officer when:
 
 | Condition | What to do |
 |-----------|-----------|
+| **Empty or missing enquiry** | Do not search; prompt officer to paste the enquiry text before proceeding |
 | **No match above 20%** | Show all results anyway; note that confidence is low |
 | **Two policies conflict** | Do not draft a reply; show both policies and ask officer to decide |
 | **High-risk policy selected** | Flag for supervisor review before drafting |
