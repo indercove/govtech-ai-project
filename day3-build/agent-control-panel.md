@@ -152,6 +152,14 @@ One row per tool the agent uses. Each tool has a tier (read, draft, write, send)
 | **Enable send button (high-risk)** | Send | Confirm | Run 2b: send enabled only after supervisor ID verified |
 | **Send reply to citizen** | Send | Block | All runs: agent never sends; officer owns final action |
 
+**Confirm sign-off flow (high-risk only):**
+1. Officer enters supervisor ID
+2. Agent verifies ID against supervisor list
+3. Agent shows modal: "Supervisor **[name]** has reviewed this response. Confirm to enable send."
+4. Officer clicks **Confirm** or **Cancel**
+5. If Confirm: send button enabled; log records supervisor ID, name, and officer confirmation
+6. If Cancel: send stays disabled; officer can re-enter a different supervisor ID
+
 ### Blocked actions (no tool — agent cannot do these)
 
 | Action | Setting | Why |
