@@ -35,10 +35,10 @@ The agent does not send replies. The officer clicks send.
 | Tool | What it does | Source |
 |------|-------------|--------|
 | **Policy search** | Query policy index by keywords, title, summary | `policy-index.json` |
-| **Draft generator** | Create reply template from policy summary | `match.js` templates |
+| **Draft generator** | Create reply template from policy summary | Template library (see below) |
 | **Risk tier lookup** | Check if policy requires supervisor review | Policy index `risk_tier` field |
-| **Conflict checker** | Flag when two policies contradict | Policy index `related_policies` field |
-| **Supervisor list lookup** | Verify supervisor ID is valid | HR system (to be integrated) |
+| **Conflict checker** | Flag when two policies contradict | Policy index `conflicts_with` field |
+| **Supervisor list lookup** | Verify supervisor ID is valid | Supervisor list API |
 
 **Not available to the agent:**
 - Resident personal data (CPF balances, addresses, NRIC, case history)
@@ -46,12 +46,100 @@ The agent does not send replies. The officer clicks send.
 - Real government databases
 - Attachment contents (images, documents)
 
+### Policy index schema (required fields)
+
+```json
+{
+  "id": "cpf-001",
+  "title": "CPF Ordinary Account Withdrawal for Housing",
+  "category": "CPF",
+  "keywords": ["cpf", "oa", "housing", "downpayment"],
+  "summary": "Rules for using CPF OA savings for housing.",
+  "url": "https://example.gov.sg/cpf/oa-housing",
+  "risk_tier": "standard",
+  "conflicts_with": []
+}
+```
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `id` | string | Yes | Unique identifier |
+| `title` | string | Yes | Human-readable title |
+| `category` | string | Yes | CPF, HDB, Healthcare, Education, Employment |
+| `keywords` | array | Yes | For matching algorithm |
+| `summary` | string | Yes | One paragraph, under 100 words |
+| `url` | string | Yes | Link to full policy page |
+| `risk_tier` | string | Yes | `standard` or `high-risk` |
+| `conflicts_with` | array | No | List of policy IDs that may contradict |
+
+### High-risk policy examples
+
+Policies tagged `high-risk` (require supervisor review):
+
+| Policy ID | Why high-risk |
+|-----------|---------------|
+| `comcare-appeal-001` | Benefits denial |
+| `hdb-repossession-001` | Financial impact >$5K |
+| `medishield-denial-001` | Benefits denial |
+| `cpf-hardship-001` | Vulnerable resident |
+
+### Supervisor list schema
+
+```json
+{
+  "supervisor_id": "supervisor_789",
+  "name": "Supervisor Name",
+  "active": true,
+  "team": "ServiceSG-Team-A"
+}
+```
+
+**API endpoint:** `GET /api/supervisors/{supervisor_id}` returns supervisor record or 404.
+
+**Fallback if API unavailable:** Block all high-risk sends; allow standard policies.
+
+### Draft template structure
+
+**Standard policy template:**
+```
+Dear [Citizen],
+
+Thank you for your enquiry about [policy title].
+
+[Policy summary]
+
+For more details, please visit: [policy URL]
+
+If you need further assistance, please let us know.
+
+Regards,
+ServiceSG
+```
+
+**High-risk policy template:**
+```
+Dear [Citizen],
+
+Thank you for your enquiry about [policy title].
+
+[Policy summary]
+
+⚠️ This response has been reviewed by a supervisor.
+
+For more details, please visit: [policy URL]
+
+If you need further assistance, please let us know.
+
+Regards,
+ServiceSG
+```
+
 ---
 
 ## Context and memory
 
 **What the agent knows:**
-- Policy index (title, category, keywords, summary, URL, risk tier)
+- Policy index (id, title, category, keywords, summary, URL, risk_tier, conflicts_with)
 - The citizen's enquiry text (pasted by officer)
 - Supervisor list (for verification)
 
@@ -60,11 +148,12 @@ The agent does not send replies. The officer clicks send.
 - Previous interactions with the same citizen
 - Full policy content (only summaries)
 - Attachment contents
+- Historical policy versions (MVP limitation — see Open decisions)
 
 **What the agent checks every time:**
-1. Does the enquiry mention a past date? → Match to policy version active at that time
-2. Does the enquiry mention an attachment? → Note it cannot be read
-3. Is the matched policy high-risk? → Require supervisor review
+1. Does the enquiry mention an attachment? → Note it cannot be read
+2. Is the matched policy high-risk? → Require supervisor review
+3. Does the matched policy conflict with another top-3 result? → Flag for officer
 
 ---
 
@@ -102,7 +191,7 @@ The agent does not send replies. The officer clicks send.
 
 | Action | Tier | Setting | Notes |
 |--------|------|---------|-------|
-| Enable send button | Send | **Confirm** | Only after officer confirms supervisor reviewed |
+| Enable send button | Send | **Confirm** | Officer sees modal: "Supervisor [name] has reviewed. Confirm to enable send." Officer clicks Confirm or Cancel. |
 | Send reply to citizen | Send | **Block** | Agent never sends; officer clicks send |
 
 ### Refused actions
@@ -167,6 +256,8 @@ Record for every interaction:
 
 **Never logged:** Full enquiry text, citizen name, NRIC, address, or any personal data.
 
+**Log retention:** 2 years (or org standard if longer). Logs are append-only; no deletion except by retention policy.
+
 ---
 
 ## Business rules
@@ -202,16 +293,18 @@ These are implementation choices. Engineering can decide without asking product:
 
 These need your input before engineering proceeds:
 
-| Decision | Options | Your choice |
-|----------|---------|-------------|
-| **1. How long before precision warning?** | (a) Warn immediately at <60% (b) Warn after 3 consecutive low matches (c) Warn only on scale test | _____ |
-| **2. Can officer override low-confidence match?** | (a) Yes, with extra confirmation (b) No, must use manual search (c) Yes, no extra step | _____ |
-| **3. What happens if supervisor rejects?** | (a) Officer edits and resubmits (b) Draft is discarded (c) Escalate to supervisor's manager | _____ |
-| **4. How often to sync supervisor list?** | (a) Real-time (b) Daily (c) Weekly | _____ |
-| **5. Should agent explain why a policy matched?** | (a) Yes, show matched keywords (b) No, just show score (c) Optional toggle | _____ |
-| **6. Conflict detection scope?** | (a) Only between top 3 results (b) Top 3 vs all related policies (c) Not in MVP | _____ |
-| **7. Template vs LLM for draft generation?** | (a) Templates only (current) (b) LLM with template fallback (c) LLM only | _____ |
-| **8. Attachment handling?** | (a) Show warning only (b) Block draft until officer confirms review (c) Allow draft with disclaimer | _____ |
+| # | Decision | Options | Your choice |
+|---|----------|---------|-------------|
+| 1 | **How is precision measured in production?** | (a) Weekly test queries run by product team (b) Officer feedback button (correct/incorrect) (c) Both | _____ |
+| 2 | **How long before precision warning?** | (a) Warn immediately at <60% (b) Warn after 3 consecutive low matches (c) Warn only on weekly test | _____ |
+| 3 | **Can officer override low-confidence match?** | (a) Yes, with extra confirmation (b) No, must use manual search (c) Yes, no extra step | _____ |
+| 4 | **What happens if supervisor rejects?** | (a) Officer edits and resubmits (b) Draft is discarded (c) Escalate to supervisor's manager | _____ |
+| 5 | **How often to sync supervisor list?** | (a) Real-time API call (b) Daily cache refresh (c) Weekly cache refresh | _____ |
+| 6 | **Should agent explain why a policy matched?** | (a) Yes, show matched keywords (b) No, just show score (c) Optional toggle | _____ |
+| 7 | **How does conflict detection work?** | (a) Manual tagging only (`conflicts_with` field) (b) Auto-detect by category + keywords (c) Not in MVP | _____ |
+| 8 | **Template vs LLM for draft generation?** | (a) Templates only (current) (b) LLM with template fallback (c) LLM only | _____ |
+| 9 | **Attachment handling?** | (a) Show warning only (b) Block draft until officer confirms review (c) Allow draft with disclaimer | _____ |
+| 10 | **Policy version history in MVP?** | (a) Yes, add `effective_date` field and match by date (b) No, MVP uses current policy only (c) Flag enquiries mentioning past dates for manual handling | _____ |
 
 ---
 
