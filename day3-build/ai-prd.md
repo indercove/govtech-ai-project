@@ -305,6 +305,9 @@ These need your input before engineering proceeds:
 | 8 | **Template vs LLM for draft generation?** | (a) Templates only (current) (b) LLM with template fallback (c) LLM only | _____ |
 | 9 | **Attachment handling?** | (a) Show warning only (b) Block draft until officer confirms review (c) Allow draft with disclaimer | _____ |
 | 10 | **Policy version history in MVP?** | (a) Yes, add `effective_date` field and match by date (b) No, MVP uses current policy only (c) Flag enquiries mentioning past dates for manual handling | _____ |
+| 11 | **Can agent add empathy sentences to drafts?** | (a) Yes, agent adds automatically; officer can remove (b) No, template only; officer adds empathy if needed (c) Agent suggests empathy in a separate box; officer copies if appropriate | _____ |
+
+**Why #11 matters:** Business owner would not sign off on (a). If the agent adds "I understand this is frustrating" to a benefits denial and the officer doesn't notice, it could sound dismissive. Tone is judgement — the agent doesn't know if the citizen is upset or matter-of-fact. Validate with officers and comms team before deciding.
 
 ---
 

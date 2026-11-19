@@ -130,7 +130,7 @@ One row per tool the agent uses. Each tool has a tier (read, draft, write, send)
 | **Show low-confidence warning** | Draft | Auto | Runs 5, 6: warning displayed when scores below threshold |
 | **Show escalation banner** | Draft | Auto | Runs 2, 2b: banner appeared when high-risk policy selected |
 
-**Draft generator discretion:** The agent may add empathy sentences (e.g. "I understand this is frustrating") beyond the policy summary. The officer can remove them before sending.
+**Draft generator discretion:** ⚠️ Open decision #11 in `ai-prd.md`. Business owner would not sign off on agent adding empathy sentences automatically — tone is judgement, not automation. Pending validation with officers and comms team.
 
 ### Write tools
 
