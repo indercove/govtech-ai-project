@@ -106,7 +106,17 @@ The tool depends on accurate, up-to-date policy data. Without a named owner acco
 | Generate draft reply | Decides alone | Officer reviews and edits |
 | Flag high-risk policy | Decides alone | Supervisor verifies via ID |
 | Send response to resident | Cannot do | Officer clicks send |
-| Refuse personal data request | Decides alone | Officer can write own reply |
+| Refuse personal data request | Decides alone (intent classification) | Officer can override or write own reply |
+
+**Fail-safes by step:**
+
+| Step | If agent is wrong | Why it's safe |
+|------|-------------------|---------------|
+| Parse enquiry | Misunderstands intent | Officer sees bad recommendations, picks manually |
+| Retrieve policies | Wrong policies ranked high | Officer reviews before selecting |
+| Generate draft | Draft is inaccurate | Officer must review and edit |
+| Flag high-risk | Misses a high-risk policy | Same risk as today (no agent) |
+| Refuse personal data | Refuses a policy question | Officer overrides; no data exposed either way |
 
 **Guardrails (5 rules):**
 
@@ -121,8 +131,9 @@ The tool depends on accurate, up-to-date policy data. Without a named owner acco
 - Whether the draft is accurate (Officer + Supervisor)
 - Whether to send the response (Officer)
 - Adding/removing supervisors from the verification list (HR / Team Lead)
+- Whether to override a refusal (Officer)
 
-**Refusal:** The tool must refuse requests to look up personal data (e.g., CPF balances). It recommends policies only and cannot access resident records.
+**Refusal:** The tool classifies enquiry intent and refuses requests for personal data (e.g., CPF balances). It recommends policies only and cannot access resident records. Structural fail-safe: even if classification is wrong, no personal data systems are connected.
 
 ## Roles and operating model
 
