@@ -70,42 +70,40 @@ The agent does not send replies. The officer clicks send.
 
 ## Permissions
 
-Every action the agent takes, with tier and proposed setting. You decide the final settings.
-
 ### Read actions
 
 | Action | Tier | Setting | Notes |
 |--------|------|---------|-------|
-| Query policy index | Read | **Proposed: Auto** | Read-only lookup |
-| Look up risk tier tag | Read | **Proposed: Auto** | Read-only lookup |
-| Look up supervisor list | Read | **Proposed: Auto** | Verify ID only |
-| Read enquiry text | Read | **Proposed: Auto** | Officer pasted it |
+| Query policy index | Read | **Auto** | Read-only lookup |
+| Look up risk tier tag | Read | **Auto** | Read-only lookup |
+| Look up supervisor list | Read | **Auto** | Verify ID only |
+| Read enquiry text | Read | **Auto** | Officer pasted it |
 
 ### Draft actions
 
 | Action | Tier | Setting | Notes |
 |--------|------|---------|-------|
-| Generate draft reply | Draft | **Proposed: Auto** | Officer must review before send |
-| Show relevance scores | Draft | **Proposed: Auto** | Information only |
-| Show related policies | Draft | **Proposed: Auto** | Information only |
-| Show escalation banner | Draft | **Proposed: Auto** | Information only |
+| Generate draft reply | Draft | **Auto** | Officer must review before send |
+| Show relevance scores | Draft | **Auto** | Information only |
+| Show related policies | Draft | **Auto** | Information only |
+| Show escalation banner | Draft | **Auto** | Information only |
 
 ### Write actions
 
 | Action | Tier | Setting | Notes |
 |--------|------|---------|-------|
-| Log recommendation | Write | **Proposed: Auto** | Audit trail |
-| Log policy selected | Write | **Proposed: Auto** | Audit trail |
-| Log supervisor verification | Write | **Proposed: Auto** | Audit trail |
-| Log bypass attempt | Write | **Proposed: Auto** | Security audit |
-| Disable send button (high-risk) | Write | **Proposed: Auto** | Blocks until checkpoint |
+| Log recommendation | Write | **Auto** | Audit trail |
+| Log policy selected | Write | **Auto** | Audit trail |
+| Log supervisor verification | Write | **Auto** | Audit trail |
+| Log bypass attempt | Write | **Auto** | Security audit |
+| Disable send button (high-risk) | Write | **Auto** | Blocks until checkpoint |
 
 ### Send actions
 
 | Action | Tier | Setting | Notes |
 |--------|------|---------|-------|
-| Enable send button | Send | **Proposed: Confirm** | Only after officer + supervisor review |
-| Send reply to citizen | Send | **Proposed: Block** | Agent never sends; officer clicks send |
+| Enable send button | Send | **Confirm** | Only after officer confirms supervisor reviewed |
+| Send reply to citizen | Send | **Block** | Agent never sends; officer clicks send |
 
 ### Refused actions
 
