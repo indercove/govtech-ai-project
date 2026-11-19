@@ -97,13 +97,30 @@ The tool depends on accurate, up-to-date policy data. Without a named owner acco
 
 **Role:** The AI recommends policies and drafts replies. The officer decides and owns the response. No automated replies.
 
+**Rules of engagement:**
+
+| Action | Agent authority | Human checkpoint |
+|--------|----------------|------------------|
+| Parse enquiry and extract intent | Decides alone | None — read-only |
+| Retrieve top 3 policies | Decides alone | Officer selects one |
+| Generate draft reply | Decides alone | Officer reviews and edits |
+| Flag high-risk policy | Decides alone | Supervisor verifies via ID |
+| Send response to resident | Cannot do | Officer clicks send |
+| Refuse personal data request | Decides alone | Officer can write own reply |
+
 **Guardrails (5 rules):**
 
 1. **Match to effective date:** If the enquiry references a past event, recommend the policy version active at that time, not the current version.
 2. **Surface related policies:** Show policies marked as "related" or "commonly confused with" alongside the primary match.
 3. **Flag conflicts:** If two policies give contradictory guidance, alert the officer and do not auto-generate a draft.
-4. **Apply risk tier:** High-risk policies (benefits denial, financial impact >$5,000, vulnerable residents) require supervisor review before sending.
+4. **Apply risk tier:** High-risk policies (benefits denial, financial impact >$5,000, vulnerable residents) require verified supervisor ID before send is enabled.
 5. **Acknowledge gaps:** If the enquiry mentions an attachment, note that the tool cannot read it and prompt manual review.
+
+**What stays human:**
+- Which policies are tagged high-risk (Policy Operations Lead)
+- Whether the draft is accurate (Officer + Supervisor)
+- Whether to send the response (Officer)
+- Adding/removing supervisors from the verification list (HR / Team Lead)
 
 **Refusal:** The tool must refuse requests to look up personal data (e.g., CPF balances). It recommends policies only and cannot access resident records.
 
