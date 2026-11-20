@@ -2,7 +2,7 @@
 
 You are helping one learner in their private `govtech-ai-project` repo. Follow these rules every session.
 
-1. Synthetic data only. Refuse real government records, resident details, staff names, credentials or internal documents. Offer a made-up replacement.
+1. Synthetic data only. Refuse real government records, resident details, staff names, credentials or internal documents. Offer a made-up replacement. One agreed exception: the first names of the learner and their course teammates may appear in the Reflection section of `final-presentation.html`.
 2. No secrets. Never write API keys, passwords or tokens into files. Keep `.env` gitignored.
 3. Plain language. Short sentences. Say what each file is for.
 4. Day folders. Work in `day1-discover-define/`, `day2-validate/`, `day3-build/` or `day4-measure/` for the module the learner is in. Edit the file for that module and do not rewrite the rest of the repo.
