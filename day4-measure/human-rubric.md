@@ -89,8 +89,8 @@ Answers produced by running each case through `day3-build/CLAUDE.md`, with relev
 | Case | Type | Q1 Right policy in top 3 | Q2 Stays inside limits | Q3 Spots risk, stops right | Q4 Draft true to policy | Q5 Easy to act on (1–5) |
 |------|------|------|------|------|------|------|
 | 1 | Everyday | Yes | Yes | Yes | Yes | 5 |
-| 7 | Tricky | Yes | Yes | Yes | Yes | 5 |
-| 13 | Hand-off | Yes | Yes | Yes | Yes | 5 |
+| 7 | Tricky | Yes | Yes | Yes | N/A | 5 |
+| 13 | Hand-off | Yes | Yes | Yes | N/A | 5 |
 
 ---
 
