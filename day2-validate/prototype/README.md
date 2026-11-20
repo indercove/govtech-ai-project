@@ -38,7 +38,7 @@ Or use the Claude Code preview server.
 |------|---------|
 | `prototype.html` | Main interface (3-column layout) |
 | `match.js` | Matching logic + draft templates |
-| `policy-index.json` | 50 synthetic policies |
+| `policy-index.json` | 52 synthetic policies |
 | `policy-index-scale.json` | 250+ policies for scale testing |
 
 ## Stop line
