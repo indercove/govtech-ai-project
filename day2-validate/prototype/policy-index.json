@@ -400,6 +400,24 @@
       "keywords": ["pr", "permanent", "resident", "apply", "application", "ica"],
       "summary": "Steps and documents needed for PR application.",
       "url": "https://example.gov.sg/immigration/pr-application"
+    },
+    {
+      "id": "social-001",
+      "title": "ComCare Short-to-Medium Term Assistance",
+      "category": "Social Support",
+      "keywords": ["comcare", "financial", "assistance", "hardship", "low income", "monthly", "reduced"],
+      "summary": "Monthly cash help for low-income households who cannot meet basic living costs. Reviewed every few months; the amount can go up or down at review.",
+      "url": "https://example.gov.sg/social/comcare-assistance",
+      "conflicts_with": ["social-002"]
+    },
+    {
+      "id": "social-002",
+      "title": "SSO Hardship Fund (One-Time Help)",
+      "category": "Social Support",
+      "keywords": ["sso", "social service office", "hardship", "fund", "financial", "assistance", "one-time"],
+      "summary": "One-time financial help from the Social Service Office for a sudden hardship. Not paid for the same need as ComCare.",
+      "url": "https://example.gov.sg/social/sso-hardship-fund",
+      "conflicts_with": ["social-001"]
     }
   ]
 }
