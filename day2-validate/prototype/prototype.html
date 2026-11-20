@@ -363,6 +363,8 @@
             <div class="result-category">${m.category}</div>
             <div class="result-title">${m.title}</div>
             <div class="result-summary">${m.summary}</div>
+            ${m.effective_from ? `<div class="result-reason">Effective: ${m.effective_from}${m.effective_to ? ' to ' + m.effective_to : ' onwards'} · Last updated: ${m.last_updated}</div>` : ''}
+            ${m.risk_tier === 'high' ? `<div class="result-reason">⚠️ High-risk policy: supervisor review required before send</div>` : ''}
             <div class="result-reason">Matched: ${m.reason}</div>
             <div class="result-score">Relevance score: ${m.score}%</div>
           </div>

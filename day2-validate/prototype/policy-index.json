@@ -408,7 +408,8 @@
       "keywords": ["comcare", "financial", "assistance", "hardship", "low income", "monthly", "reduced"],
       "summary": "Monthly cash help for low-income households who cannot meet basic living costs. Reviewed every few months; the amount can go up or down at review.",
       "url": "https://example.gov.sg/social/comcare-assistance",
-      "conflicts_with": ["social-002"]
+      "conflicts_with": ["social-002"],
+      "risk_tier": "high"
     },
     {
       "id": "social-002",
@@ -418,6 +419,47 @@
       "summary": "One-time financial help from the Social Service Office for a sudden hardship. Not paid for the same need as ComCare.",
       "url": "https://example.gov.sg/social/sso-hardship-fund",
       "conflicts_with": ["social-001"]
+    },
+    {
+      "id": "edu-008",
+      "title": "ECDA Preschool Subsidy (Childcare and Infant Care)",
+      "category": "Education",
+      "keywords": ["ecda", "preschool", "childcare", "child care", "infant care", "subsidy", "centre", "fees", "parent"],
+      "summary": "Monthly subsidy on childcare and infant care fees at licensed centres. A basic subsidy for working mothers, plus an additional subsidy in income-based tiers: lower household income gets more help. Apply through the official preschool subsidy portal.",
+      "url": "https://example.gov.sg/education/ecda-preschool-subsidy"
+    },
+    {
+      "id": "work-009",
+      "title": "Workfare Income Supplement (WIS) Payouts",
+      "category": "Employment",
+      "keywords": ["workfare", "wis", "income supplement", "payout", "payouts", "credited", "low-wage", "schedule"],
+      "summary": "Extra cash and CPF top-ups for lower-wage workers. Payouts are credited monthly, about two months after the month worked, once the employer has paid CPF for that month.",
+      "url": "https://example.gov.sg/employment/workfare-payouts"
+    },
+    {
+      "id": "misc-008",
+      "title": "Senior Household Top-Up (2025 version: $200 a quarter)",
+      "category": "Social Support",
+      "keywords": ["senior", "household", "top", "quarter", "quarterly", "payout", "200"],
+      "summary": "Quarterly cash top-up of $200 for senior households. Applies to applications made from 1 Jan 2025 to 30 Jun 2026. Replaced by the current version from 1 Jul 2026.",
+      "url": "https://example.gov.sg/social/senior-household-top-up-2025",
+      "version": "2025",
+      "effective_from": "2025-01-01",
+      "effective_to": "2026-06-30",
+      "superseded_by": "misc-009",
+      "last_updated": "2026-07-01"
+    },
+    {
+      "id": "misc-009",
+      "title": "Senior Household Top-Up (current version: $250 a quarter)",
+      "category": "Social Support",
+      "keywords": ["senior", "household", "top", "quarter", "quarterly", "payout", "250"],
+      "summary": "Quarterly cash top-up of $250 for senior households. Applies to applications made from 1 Jul 2026. Earlier applications follow the 2025 version.",
+      "url": "https://example.gov.sg/social/senior-household-top-up",
+      "version": "2026",
+      "effective_from": "2026-07-01",
+      "supersedes": "misc-008",
+      "last_updated": "2026-07-01"
     }
   ]
 }
