@@ -205,8 +205,20 @@ The tool depends on accurate, up-to-date policy data. Without a named owner acco
 
 ## Decision: continue, pivot or stop
 
-(To be completed after pilot)
+**Call: Continue.** Fix the open issues below and rerun the eval before the 5-officer pilot.
+
+**Why:** After two rounds of fixes, every deal-breaker check passes, and the right policy is in the top 3 for 73% of cases. That is above the 60% kill switch. The last misses come from three schemes missing from the index, which is a content fix, not a reason to change the approach. (Source: `day4-measure/eval-results.md`, 2026-11-20.)
 
 ## Open issues
 
-(To be completed)
+All examples are synthetic and made up for learning purposes.
+
+| # | Issue | Evidence | Owner | Fix |
+|---|-------|----------|-------|-----|
+| 1 | Right policy in top 3 (Q1) is below the bar | 73% against an 80% target; everyday cases 4 of 6 against 5 of 6 | Policy Operations Lead | Add ECDA (Case 4), Workfare (Case 5) and Senior Household Top-Up (Case 11) to the index and the answer key |
+| 2 | Answers are not easy enough to act on (Q5) | Average 3.5 against 4.0; two scores of 2 (Cases 4 and 5) | Policy Operations Lead, Engineering Lead | Same index fix as issue 1 |
+| 3 | Draft templates need work | No high-risk template (Case 13). CPF template asks for NRIC and HDB template asks for household details (Cases 1 and 2) | Engineering Lead | Add a high-risk template; remove personal data lines from the templates |
+| 4 | Two rules are not yet tested at their edges | The low-confidence rule now relies on the agent judging the topic. The conflict rule must not fire when only one scheme is asked about | Policy Operations Lead | Add two eval cases: a wrong scheme scoring above 20%, and ComCare and SSO both shown when only one is asked about |
+| 5 | The eval was not independent | The same reviewer ran the agent and scored it, and the scoring was not blind | Team Lead, Engineering Lead | Rerun with two Officer reviewers who did not build the agent, starting with the warm-up set |
+| 6 | The index lacks data that some guardrails need | No risk tiers, effective dates or version history, so the date and risk checks depend on the enquiry text only | Policy Operations Lead | Add these fields to the index before production |
+| 7 | Attachments cannot be read | About 20% of enquiries include an image or file. The agent flags it but cannot help with it | Product Owner | Decide whether attachment reading is in scope after the pilot |
