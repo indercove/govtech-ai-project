@@ -44,6 +44,12 @@ section h2{font-size:clamp(28px,3.8vw,42px);font-weight:800;margin-bottom:10px}
 .in-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .in-card{background:var(--card);border:1px solid color-mix(in srgb,var(--col) 40%,transparent);border-radius:14px;padding:22px 24px}
 .in-card p{font-size:16px;font-weight:600}
+.voices{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.voice{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.voice p{margin:0 0 8px;font-size:14px}
+.voice .by{font-size:10.5px;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0}
+.in-card h3{font-size:18px;font-weight:800;margin-bottom:8px}
+.in-card p.body{font-size:14px;font-weight:400}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:32px 20px;border-top:1px solid var(--line)}
 @media(max-width:800px){.in-grid{grid-template-columns:1fr}main{padding:56px 20px 30px}}
 </style>
@@ -64,10 +70,16 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:32px 20px;bor
 <div class="mt-card" style="--col:#A78BFA"><div class="mt-label">Usage metric</div><p>How often officers pick one of the three recommended policies. Target: half of pilot officers use it on at least 1 in 5 tickets within two weeks.</p></div>
 <div class="mt-card" style="--col:#A9BCFF"><div class="mt-label">Pattern I&rsquo;ll watch for first</div><p>Too many low-confidence warnings. If the warning shows on more than half of tickets, officers will learn to ignore it, so I&rsquo;ll retune it with the Engineering Lead.</p></div>
 </div><div class="stop"><div class="mt-label">Stop line</div><p>If the right policy is in the top three on fewer than 60% of cases, or one wrong reply reaches a resident, I pause the assistant and officers go back to manual search.</p></div></section>
-<section><div class="eyebrow">Reflection</div><h2>What I learned</h2><p class="lede">Where it was hardest, what I&rsquo;ll keep doing, and the moment my thinking changed.</p><div class="in-grid">
-<div class="in-card" style="--col:#F59A3F"><div class="in-label">Friction</div><p>Keeping track of all the pieces: skills, evals, pass bars and business requirements. They describe the same thing in different ways.</p></div>
-<div class="in-card" style="--col:#C77BC0"><div class="in-label">Key learnings</div><p>Break my thinking into clear steps, and keep refining each step as I learn.</p></div>
-<div class="in-card" style="--col:#A9BCFF"><div class="in-label">Aha moment</div><p>Even the parts that looked complex came back to the business requirements.</p></div>
+<section><div class="eyebrow">Reflection</div><h2>What we learned</h2><p class="lede">What our team of four found hardest, what we&rsquo;ll keep doing, and the moment our thinking changed.</p><div class="in-grid">
+<div class="in-card" style="--col:#F59A3F"><div class="in-label">Friction</div><h3>The AI was the easy part.</h3><p class="body">The hard part was everything around it: guardrails, edge cases and evals. There was a lot to read and cross-check so the skill file, PRD, rubric and pass bars all told the same story.</p></div>
+<div class="in-card" style="--col:#C77BC0"><div class="in-label">Key learnings</div><h3>Fundamentals first, in small steps.</h3><p class="body">Start with the problem and the riskiest assumption, not the technology. Write each decision down, build small, test early, keep humans in control, and set a clear point to stop.</p></div>
+<div class="in-card" style="--col:#A9BCFF"><div class="in-label">Aha moment</div><h3>Work backwards from what good looks like.</h3><p class="body">Defining users, deal-breakers and pass bars first lets evals shape what we build, not just test it. Under the complexity it still comes back to business requirements, and our PM judgment still counts. AI is one more tool.</p></div>
+</div>
+<div class="voices">
+<div class="voice"><p>&ldquo;Even the parts that looked complex came back to the business requirements.&rdquo;</p><p class="by">Me</p></div>
+<div class="voice"><p>&ldquo;The product experience we&rsquo;ve built over the years still helps us make good judgments. This is one more tool in our PM toolkit.&rdquo;</p><p class="by">Teammate 2</p></div>
+<div class="voice"><p>&ldquo;Evals should shape what we build, not just test what we&rsquo;ve built.&rdquo;</p><p class="by">Teammate 3</p></div>
+<div class="voice"><p>&ldquo;The hardest part was the guardrails and evals: where the edge cases might be.&rdquo;</p><p class="by">Teammate 4</p></div>
 </div></section>
 <footer>GovTech Singapore onsite &middot; November 2026 &middot; GovTech Singapore &middot; Final Project</footer>
 </main>
