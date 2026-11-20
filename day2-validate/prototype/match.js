@@ -114,7 +114,10 @@ async function matchPolicies(query, maxResults = 3) {
  * ALL DRAFTS ARE SYNTHETIC TEMPLATES FOR LEARNING PURPOSES.
  */
 function generateReplyDraft(enquiry, policy, alternate = false) {
-  const templates = getReplyTemplates(policy.category);
+  // High-risk policies always use the high-risk template, whatever the category.
+  const templates = policy.risk_tier === 'high'
+    ? getHighRiskTemplates()
+    : getReplyTemplates(policy.category);
   const template = alternate
     ? templates[Math.floor(Math.random() * templates.length)]
     : templates[0];
@@ -122,9 +125,43 @@ function generateReplyDraft(enquiry, policy, alternate = false) {
   return template
     .replace('{GREETING}', getGreeting())
     .replace('{POLICY_TITLE}', policy.title)
-    .replace('{POLICY_SUMMARY}', policy.summary)
+    .replace('{POLICY_SUMMARY}', policy.summary + getVersionLine(policy))
     .replace('{POLICY_URL}', policy.url)
     .replace('{SIGN_OFF}', getSignOff());
+}
+
+/**
+ * If a policy has versions, say which version the draft uses and when it applies.
+ */
+function getVersionLine(policy) {
+  if (!policy.effective_from) return '';
+  const until = policy.effective_to ? ` to ${policy.effective_to}` : ' onwards';
+  return `\n\nThis reply uses the ${policy.version} version of this policy, which applies from ${policy.effective_from}${until}.`;
+}
+
+/**
+ * Template for high-risk policies (benefits changes, vulnerable residents, >$5,000 impact).
+ * The supervisor note must be removed by the officer only after supervisor review.
+ */
+function getHighRiskTemplates() {
+  return [
+    `[SUPERVISOR REVIEW REQUIRED - do not send until a supervisor has reviewed this draft and their ID is verified. Remove this line after review.]
+
+{GREETING}
+
+Thank you for writing to us. We understand this matter is important to you, and we are sorry for the worry it has caused.
+
+The policy that applies to your situation is:
+
+**{POLICY_TITLE}**
+{POLICY_SUMMARY}
+
+You can read more at: {POLICY_URL}
+
+An officer will look into your situation carefully and get back to you. If you need urgent help in the meantime, please call or visit your nearest Social Service Office.
+
+{SIGN_OFF}`
+  ];
 }
 
 function getGreeting() {
@@ -158,7 +195,7 @@ Based on your query, I would like to direct you to the following resource:
 
 You may find more details at: {POLICY_URL}
 
-If you need further assistance, please provide your NRIC (last 4 characters) and we can look into your specific situation.
+If you have further questions about your own account, please log in to the CPF website or app, or reply to this message and an officer will help you.
 
 {SIGN_OFF}`,
       `{GREETING}
@@ -189,7 +226,7 @@ Based on your query, the relevant information can be found here:
 
 Please visit {POLICY_URL} for eligibility criteria and application steps.
 
-If you would like us to check your specific eligibility, please provide your household details.
+You can check your own eligibility on the HDB website. If you have further questions, please reply to this message.
 
 {SIGN_OFF}`,
       `{GREETING}
@@ -282,7 +319,7 @@ Based on your query, the relevant resource is:
 
 Please refer to {POLICY_URL} for detailed requirements and application procedures.
 
-If you need assistance with a specific case, please provide your FIN or application reference number.
+If you have further questions, please reply to this message and an officer will help you.
 
 {SIGN_OFF}`,
       `{GREETING}

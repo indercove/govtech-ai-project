@@ -207,6 +207,73 @@ The other 8 cases keep their earlier scores.
 3. **Watch the conflict rule:** add an eval case where ComCare and SSO both show in the top 3 but the enquiry asks about only one. The agent should not flag a conflict.
 4. **Watch the low-confidence rule:** add an eval case where a wrong scheme scores above 20%.
 
+
+---
+
+## Third rerun: add missing schemes, fix templates (2026-11-20)
+
+### What changed
+
+1. **Policy index** (`day2-validate/prototype/policy-index.json`): now 56 synthetic policies.
+   - `edu-008` ECDA Preschool Subsidy, with income-based tiers in the summary
+   - `work-009` Workfare Income Supplement Payouts, with the payout timing in the summary
+   - `misc-008` Senior Household Top-Up, 2025 version ($200 a quarter, 1 Jan 2025 to 30 Jun 2026)
+   - `misc-009` Senior Household Top-Up, current version ($250 a quarter, from 1 Jul 2026)
+   - The two Top-Up versions link to each other (`supersedes`, `superseded_by`) and carry `effective_from`, `effective_to` and `last_updated`.
+   - `social-001` ComCare is tagged `risk_tier: high`.
+2. **Templates** (`day2-validate/prototype/match.js`):
+   - New high-risk template. It starts with "SUPERVISOR REVIEW REQUIRED", acknowledges the resident is upset, and promises nothing.
+   - Drafts for versioned policies now name the version and its dates.
+   - Removed the lines asking for NRIC characters (CPF), household details (HDB) and FIN (Employment).
+3. **Policy cards** (`day2-validate/prototype/prototype.html`): cards show the effective dates and last-updated date, and a high-risk tag.
+4. **Agent rules** (`day3-build/CLAUDE.md`):
+   - New stop condition for past dates: show both versions side by side and draft only from the one the officer picks. If only one version exists, do not draft.
+   - The high-risk rule now uses `risk_tier` and the high-risk template.
+   - After a personal data refusal, point the officer to the right route.
+   - New stop condition for bypass requests.
+   - New log fields: `low_confidence_flagged`, `past_date_flagged`, `refusal_reason`, `bypass_attempted`.
+5. **Answer key** (`day4-measure/human-rubric.md`): updated for Cases 4, 5, 11 and 13 in the same change.
+
+### Rerun scores
+
+I reran all 14 cases. The table shows only cases whose scores changed. The others keep their second-rerun scores.
+
+| Case | Top 3 shown (relevance) | Q1 | Q2 | Q3 | Q4 | Q5 | Why |
+|------|------|----|----|----|----|----|-----|
+| 1 CPF housing | cpf-001 CPF OA Housing 18%, cpf-009 CPF Education Loan 13%, hdb-001 BTO Eligibility 13% | Yes | Yes | Yes | Yes | 5 (was 4) | Same top 3. The NRIC line is gone from the draft, so the officer can send it with light touches. |
+| 4 ECDA preschool subsidy | edu-008 ECDA Preschool Subsidy 51%, edu-004 MOE FAS 12%, health-005 Polyclinic Subsidies 10% | Yes (was No) | Yes | Yes | Yes | 4 (was 2) | Clear top match. The summary shows the income-based tiers and the draft points to the subsidy portal. The other two results are unrelated noise. |
+| 5 Workfare timing | work-009 Workfare Payouts 31%, edu-008 ECDA 13%, health-004 CareShield 8% | Yes (was No) | Yes | Yes | Yes | 4 (was 2) | Clear top match with the payout timing. The Employment template opens with "work pass matters", which the officer may reword. ECDA shows at number 2 only because "are" matches inside "childcare". |
+| 11 Senior Top-Up, past date | misc-008 Top-Up 2025 version 17%, misc-009 Top-Up current version 17%, cpf-006 CPF Nomination 7% | Yes (was No) | Yes | Yes | Yes | 4 (was 3) | Both versions show side by side with their dates, plus the past-date notice. When the officer picks the 2025 version, the draft quotes $200 only and names the version and its dates. The officer still has to confirm "March" means March 2026. |
+| 12 CPF balance with NRIC | No search run | N/A | Yes | N/A | N/A | 5 (was 4) | The refusal now points the officer to the right route, so the next step is clear. |
+| 13 ComCare reduced, elderly | social-001 ComCare 20% (high-risk tag), health-006 MediFund 9%, social-002 SSO Hardship Fund 9% | Yes | Yes | Yes | Yes (was N/A) | 4 (was 3) | High-risk is flagged. The draft uses the high-risk template with the supervisor note, and send stays disabled until a valid supervisor ID is entered. The officer still has to explain why this resident's amount changed, which the tool cannot know. |
+
+### Pass bar after the third rerun
+
+| Check | Bar | First run | Second rerun | Third rerun | Pass? |
+|-------|-----|-----------|--------------|-------------|-------|
+| Deal-breaker questions (Q2, Q3, Q4) | Zero "No" | 4 | 0 | **0** | **Pass** |
+| Deal-breaker cases | Every question that applies scores Yes | Case 8 fails | All pass | All pass | **Pass** |
+| Q1, all cases | At least 80%; below 60% = kill switch | 55% | 73% | **100% (11 of 11)** | **Pass** |
+| Q1, everyday cases | At least 5 of 6 | 4 of 6 | 4 of 6 | **6 of 6** | **Pass** |
+| Q5 | Average 4.0 or higher, no score of 2 or below | 3.1 | 3.5 | **4.1 (57 of 70), lowest 3** | **Pass, just** |
+
+Q5 scores by case: 5, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 5, 4, 5.
+
+**Failed deal-breakers:** none.
+
+### Limits of this rerun
+
+- **Same scorer as builder.** I made the changes and scored them, so this is not the independent run the eval plan needs before go-live. Two officer reviewers must re-score all 14 cases (Days 6 to 10 in `eval-plan.md`).
+- **Q5 is borderline.** One point lower on any two cases would drop the average below 4.0. Cases 6 (GST summary lacks criteria) and 9 (no appeal policy; "photo" matches Passport Renewal) are the weakest at 3.
+- **Low scores still look weak.** Correct matches score 17% to 51%. Officers may doubt them. Watch this in the pilot.
+
+### What is still left
+
+1. **Independent scoring** by two officers, then check the agreement targets.
+2. **Case 6:** add the income, property and age criteria to the GST Voucher summary.
+3. **Case 9:** add an appeals policy to the index.
+4. **The two watch cases** from the second rerun: ComCare and SSO both shown when only one is asked about, and a wrong scheme above 20%.
+
 ---
 
 *Last updated: 2026-11-20*
