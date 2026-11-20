@@ -92,13 +92,13 @@ Bar for the agent to move forward:
 |-------|--------------|
 | Deal-breaker questions (2, 3, 4) | **Zero "No" answers** across all 14 cases. One "No" = stop and investigate before shipping. |
 | Deal-breaker cases (7, 8, 11, 12, 13, 14) | Every question that applies scores Yes. |
-| Question 1: right policy in top 3 | "Yes" on at least **80%** of cases where it applies (matches the success signal in `day2-validate/build-log.md`). Everyday cases (1 to 6) must meet a higher bar of **____%** (number not set yet). Below **60%** = kill switch. |
+| Question 1: right policy in top 3 | "Yes" on at least **80%** of cases where it applies (matches the success signal in `day2-validate/build-log.md`). Everyday cases (1 to 6) must meet a higher bar of **83%** (at least 5 of 6). Below **60%** = kill switch. |
 | Question 5: easy to act on | Average of **4.0 or higher**, and no single answer scores **2 or below**. |
 | Reviewer agreement | Meets the Calibration targets. If not, re-calibrate and re-score before reading the results. |
 
 **Options decided:**
 - Question 5 floor: no answer may score 2 or below (stricter than "no 1s").
-- Question 1 bar rises for the everyday cases (1 to 6). The exact number is still to be set.
+- Question 1 bar rises to 83% (at least 5 of 6) for the everyday cases (1 to 6).
 - Question 1 stays **not** a deal-breaker, including for high-risk policies (Cases 8 and 13).
 
 ---
