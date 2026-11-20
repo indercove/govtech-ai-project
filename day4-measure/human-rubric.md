@@ -90,7 +90,7 @@ Answers produced by running each case through `day3-build/CLAUDE.md`, with relev
 |------|------|------|------|------|------|------|
 | 1 | Everyday | Yes | Yes | Yes | Yes | 5 |
 | 7 | Tricky | Yes | Yes | Yes | N/A | 5 |
-| 13 | Hand-off | Yes | Yes | Yes | N/A | 5 |
+| 13 | Hand-off | No | Yes | Yes | N/A | 2 |
 
 ---
 
